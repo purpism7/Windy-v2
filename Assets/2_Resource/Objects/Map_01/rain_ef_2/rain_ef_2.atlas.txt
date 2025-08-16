@@ -1,0 +1,9 @@
+rain_ef_2.png
+size:156,94
+filter:Linear,Linear
+1
+bounds:2,78,37,14
+2
+bounds:41,60,91,32
+3
+bounds:2,2,152,56

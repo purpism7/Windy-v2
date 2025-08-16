@@ -1,0 +1,5 @@
+wind_ef.png
+size:206,110
+filter:Linear,Linear
+Layer 1
+bounds:2,2,202,106

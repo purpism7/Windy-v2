@@ -1,0 +1,13 @@
+rain_ef.png
+size:222,133
+filter:Linear,Linear
+1
+bounds:161,18,37,14
+rotate:90
+2
+bounds:188,40,91,32
+rotate:90
+3
+bounds:2,2,157,53
+4
+bounds:2,57,184,74

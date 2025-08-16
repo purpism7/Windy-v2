@@ -1,0 +1,15 @@
+map_01_obj_tree.png
+size:877,302
+filter:Linear,Linear
+map_01_obj_tree
+bounds:2,4,296,407
+offsets:2,4,300,411
+rotate:90
+map_01_obj_tree_base
+bounds:752,53,247,123
+offsets:27,0,300,123
+rotate:90
+map_01_obj_tree_cut
+bounds:411,2,298,339
+offsets:0,0,300,339
+rotate:90

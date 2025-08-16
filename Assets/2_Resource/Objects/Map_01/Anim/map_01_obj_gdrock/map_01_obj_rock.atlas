@@ -1,0 +1,6 @@
+map_01_obj_rock.png
+size:204,185
+filter:Linear,Linear
+map_01_obj_gdrock
+bounds:2,2,200,181
+offsets:0,7,200,190

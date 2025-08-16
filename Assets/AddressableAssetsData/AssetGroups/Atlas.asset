@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Atlas
+  m_EditorClassIdentifier: 
+  m_GroupName: Atlas
+  m_GUID: 19d2c5d82cdb441cbb2feab81bc04def
+  m_SerializeEntries:
+  - m_GUID: 71f7b4587a6fc4eedafc4e393f3d93cc
+    m_Address: Assets/2_Resource/Atlas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Atlas
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 25cf3f0054e424e69aaaf3d6bdb1e5c8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d90eb6b2d0533494db11c33ab6dcc60c, type: 2}
+    - {fileID: 11400000, guid: 316c6df1a73554f059cd6c03739e8925, type: 2}

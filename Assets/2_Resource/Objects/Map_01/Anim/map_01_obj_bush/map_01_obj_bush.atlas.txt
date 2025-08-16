@@ -1,0 +1,6 @@
+map_01_obj_bush.png
+size:255,214
+filter:Linear,Linear
+map_01_obj_bush
+bounds:2,2,251,210
+offsets:4,1,260,211

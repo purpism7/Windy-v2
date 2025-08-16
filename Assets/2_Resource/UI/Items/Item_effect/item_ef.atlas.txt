@@ -1,0 +1,28 @@
+item_ef.png
+size:260,153
+filter:Linear,Linear
+Rectangle 1
+bounds:153,10,13,26
+rotate:90
+Rectangle 2
+bounds:153,10,13,26
+rotate:90
+Rectangle 3
+bounds:181,10,26,13
+Rectangle 4
+bounds:181,10,26,13
+Rectangle 5
+bounds:153,25,24,25
+rotate:90
+Rectangle 6
+bounds:180,25,24,25
+rotate:90
+Rectangle 7
+bounds:207,25,25,24
+Rectangle 8
+bounds:234,24,25,24
+rotate:90
+circle 1
+bounds:153,51,100,100
+circle 2
+bounds:2,2,149,149

@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UIItems
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 64231b63e4d15417b83335d5252b1b85, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 119cc610e03da42a69d664eaf3440de7: 21300000
+    - a13f9c3033fa748b08f916381374e397: 21300000
+    - 9cb55d40c1faf4f93b971e6ec21d6ddd: 21300000
+    - 246be180fedbf46fe82327e1c633ceae: 21300000
+    - 61d56f80a442a4d099f346cf9f1c8eb9: 21300000
+    - 958b1021d9ee540749fc93fcaa5b89e0: 21300000
+    - 6e276a71465374aeca576119795d1b6d: 21300000
+    - 9af32fc12a9ed4815b6daacdb8559145: 21300000
+    - 87fcb1e1b263c443184a6f5f98a2cff0: 21300000
+    - 5a82fee20145847b9916d8a42700e1d9: 21300000
+    - 03651113dd51a45d2ba696d9c033e0b5: 21300000
+    - 47670b43df14f4e38b3d3d45e68e8bde: 21300000
+    - f608f0a37b1824ea29bbaa70199cd7bc: 21300000
+    - 9048ef14e8b474cb58d0d8c9a4de2acd: 21300000
+    - 2ed9863585edd411c8b2ed4d0ec7f66b: 21300000
+    - 33b9f0456660342f79f0c254904b77b8: 21300000
+    - 614d4855f70f14fcd92239d268c92cf2: 21300000
+    - e3fa49a54e8224ef690018a721601cad: 21300000
+    - 710214d5c11614675ab42433a1026fc6: 21300000
+    - 4982e8175603a449ab364f2d54fc84c8: 21300000
+    - 65ce0a47561624182b8ceb966ffe20b6: 21300000
+    - c148bd771bf284619b7f06a5bf0646a8: 21300000
+    - ca8dff288b1444996a12dfad2cdc0c38: 21300000
+    - f798c5c8a5fab496fbb882401033e569: 21300000
+    - 2e657839bdc194d74876b50067bf4680: 21300000
+    - e4975ba979ddb4ec48426c5ace7c79d3: 21300000
+    - 47ace9c9f26e247ed95db3ddb0720240: 21300000
+    - dda1c18a7a67c4c9d99f3b9ec79dcf57: 21300000
+    - b5f542fa92ff14de9bab0e2c5bb951c1: 21300000
+    - 7249163c62ee44cc5af9db3d1dee1171: 21300000
+    - f086ac4cb4b7446d789f4c0c30117317: 21300000
+    - a86492dc76c084e369ae8db7b13a47e9: 21300000
+    - 0b459d7edc5604e3baa62573f8b89d52: 21300000
+    - fe90e8cea97654d58a60d30265b1c7c3: 21300000
+    - b0b50bde4aac74d9193ec494dabc5880: 21300000
+    - 5ead332f25e554980a1f81c3d3a8ce10: 21300000
+    - 812e782ff977840a2bc1ab471587dd98: 21300000
+    - a5bba82f9ca124c3c95aef9abaaf2f8f: 21300000
+    - 8664ae9fbfded4af8a46bbcb7534bf1d: 21300000
+    - 6a5e6ddfe86cb40709299315f6ca825e: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 119cc610e03da42a69d664eaf3440de7, type: 3}
+  - {fileID: 21300000, guid: a13f9c3033fa748b08f916381374e397, type: 3}
+  - {fileID: 21300000, guid: 9cb55d40c1faf4f93b971e6ec21d6ddd, type: 3}
+  - {fileID: 21300000, guid: 246be180fedbf46fe82327e1c633ceae, type: 3}
+  - {fileID: 21300000, guid: 61d56f80a442a4d099f346cf9f1c8eb9, type: 3}
+  - {fileID: 21300000, guid: 958b1021d9ee540749fc93fcaa5b89e0, type: 3}
+  - {fileID: 21300000, guid: 6e276a71465374aeca576119795d1b6d, type: 3}
+  - {fileID: 21300000, guid: 9af32fc12a9ed4815b6daacdb8559145, type: 3}
+  - {fileID: 21300000, guid: 87fcb1e1b263c443184a6f5f98a2cff0, type: 3}
+  - {fileID: 21300000, guid: 5a82fee20145847b9916d8a42700e1d9, type: 3}
+  - {fileID: 21300000, guid: 03651113dd51a45d2ba696d9c033e0b5, type: 3}
+  - {fileID: 21300000, guid: 47670b43df14f4e38b3d3d45e68e8bde, type: 3}
+  - {fileID: 21300000, guid: f608f0a37b1824ea29bbaa70199cd7bc, type: 3}
+  - {fileID: 21300000, guid: 9048ef14e8b474cb58d0d8c9a4de2acd, type: 3}
+  - {fileID: 21300000, guid: 2ed9863585edd411c8b2ed4d0ec7f66b, type: 3}
+  - {fileID: 21300000, guid: 33b9f0456660342f79f0c254904b77b8, type: 3}
+  - {fileID: 21300000, guid: 614d4855f70f14fcd92239d268c92cf2, type: 3}
+  - {fileID: 21300000, guid: e3fa49a54e8224ef690018a721601cad, type: 3}
+  - {fileID: 21300000, guid: 710214d5c11614675ab42433a1026fc6, type: 3}
+  - {fileID: 21300000, guid: 4982e8175603a449ab364f2d54fc84c8, type: 3}
+  - {fileID: 21300000, guid: 65ce0a47561624182b8ceb966ffe20b6, type: 3}
+  - {fileID: 21300000, guid: c148bd771bf284619b7f06a5bf0646a8, type: 3}
+  - {fileID: 21300000, guid: ca8dff288b1444996a12dfad2cdc0c38, type: 3}
+  - {fileID: 21300000, guid: f798c5c8a5fab496fbb882401033e569, type: 3}
+  - {fileID: 21300000, guid: 2e657839bdc194d74876b50067bf4680, type: 3}
+  - {fileID: 21300000, guid: e4975ba979ddb4ec48426c5ace7c79d3, type: 3}
+  - {fileID: 21300000, guid: 47ace9c9f26e247ed95db3ddb0720240, type: 3}
+  - {fileID: 21300000, guid: dda1c18a7a67c4c9d99f3b9ec79dcf57, type: 3}
+  - {fileID: 21300000, guid: b5f542fa92ff14de9bab0e2c5bb951c1, type: 3}
+  - {fileID: 21300000, guid: 7249163c62ee44cc5af9db3d1dee1171, type: 3}
+  - {fileID: 21300000, guid: f086ac4cb4b7446d789f4c0c30117317, type: 3}
+  - {fileID: 21300000, guid: a86492dc76c084e369ae8db7b13a47e9, type: 3}
+  - {fileID: 21300000, guid: 0b459d7edc5604e3baa62573f8b89d52, type: 3}
+  - {fileID: 21300000, guid: fe90e8cea97654d58a60d30265b1c7c3, type: 3}
+  - {fileID: 21300000, guid: b0b50bde4aac74d9193ec494dabc5880, type: 3}
+  - {fileID: 21300000, guid: 5ead332f25e554980a1f81c3d3a8ce10, type: 3}
+  - {fileID: 21300000, guid: 812e782ff977840a2bc1ab471587dd98, type: 3}
+  - {fileID: 21300000, guid: a5bba82f9ca124c3c95aef9abaaf2f8f, type: 3}
+  - {fileID: 21300000, guid: 8664ae9fbfded4af8a46bbcb7534bf1d, type: 3}
+  - {fileID: 21300000, guid: 6a5e6ddfe86cb40709299315f6ca825e, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - map01_inven_items_flint
+  - map01_inven_items_whitebranch
+  - map01_inven_items_ladder
+  - map01_inven_items_torchfuel
+  - item_ef
+  - map01_inven_items_bigstone
+  - Rectangle 3
+  - Rectangle 6
+  - map01_inven_items_sharppiece
+  - map01_inven_items_stump
+  - Rectangle 4
+  - map01_inven_items_branch
+  - Rectangle 5
+  - Rectangle 2
+  - map01_inven_items_smallstone
+  - map01_puzzle_piece6
+  - map01_inven_items_fuellog
+  - map01_puzzle_piece8
+  - map01_inven_items_gold
+  - Rectangle 1
+  - map01_puzzle_piece9
+  - map01_puzzle_piece2
+  - map01_inven_items_torch
+  - map01_inven_items_hammer
+  - Rectangle 7
+  - map01_puzzle_piece1
+  - map01_puzzle_piece4
+  - map01_puzzle_piece5
+  - map01_inven_items_treesap
+  - map01_inven_items_polishedstone
+  - map01_inven_items_axe
+  - map01_puzzle_piece3
+  - map01_puzzle_piece7
+  - circle 2
+  - circle 1
+  - map01_inven_items_torchhandle
+  - map01_inven_items_pickaxe
+  - Rectangle 8
+  - map01_inven_items_leaf
+  - map_01_item_letter
+  m_RenderDataMap: {}
+  m_Tag: UIItems
+  m_IsVariant: 0
