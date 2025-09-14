@@ -78,7 +78,8 @@ namespace UI.Puzzle
 
         public override void CreatePresenter()
         {
-            _iPathFindPuzzlePresenter = new PathFindPuzzlePresenter()?.Initialize(this);
+            _iPathFindPuzzlePresenter = new PathFindPuzzlePresenter()
+                .Initialize(this);
         }
 
         public override async UniTask InitializeAsync()
@@ -99,11 +100,20 @@ namespace UI.Puzzle
                 ActivatePuzzleRootRectTm(puzzleIndex);
             }
             
-            await _iPathFindPuzzlePresenter
-                .SetPuzzleIndex(puzzleIndex)
-                .ActivateAsync();
+            // await _iPathFindPuzzlePresenter
+            //     .SetPuzzleIndex(puzzleIndex)
+            //     .ActivateAsync();
             
             Manager.Get<IInputLocker>()?.Lock(EInputLock.Axis);
+        }
+
+        public override async UniTask AfterActivateAsync()
+        {
+            await base.AfterActivateAsync();
+            
+            await _iPathFindPuzzlePresenter
+                .SetPuzzleIndex(_puzzleIndex)
+                .ActivateAsync();
         }
 
         public override void Deactivate()

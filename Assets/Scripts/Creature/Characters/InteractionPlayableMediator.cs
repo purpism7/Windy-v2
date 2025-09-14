@@ -333,7 +333,7 @@ namespace Creature.Characters
             int puzzleIndex = questData.Value1.FirstOrDefault();
             
             var pathFindPuzzleView = await UICreator < UI.Puzzle.PathFindPuzzleView, UI.Puzzle.PathFindPuzzleView.Param>.Get
-                .SetRootTm(UIManager.Instance?.PanelUIRootRectTm)
+                .SetRootTm(UIManager.Instance?.ViewUIRootRectTm)
                 .SetParam(new UI.Puzzle.PathFindPuzzleView.Param(puzzleIndex))
                 .SetInitializeSize(true)
                 .CreateAsync();

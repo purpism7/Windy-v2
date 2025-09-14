@@ -80,5 +80,10 @@ namespace Common
 
             return this;
         }
+
+        public virtual UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
+        }
     }
 }

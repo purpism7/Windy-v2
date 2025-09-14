@@ -210,17 +210,8 @@ public static class Extensions
 
         var targetWorldPos = targetTm.position;
         Vector3 localPos = parent.InverseTransformPoint(targetWorldPos);
-        //rectTm.localPosition = localPos;
+
         rectTm.anchoredPosition = localPos;
-        // Vector2 localPoint;
-        // RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        //     parent,
-        //     RectTransformUtility.WorldToScreenPoint(null, targetTm.position),
-        //     null,
-        //     out localPoint
-        // );
-        //
-        // rectTm.anchoredPosition = localPoint;
     }
     #endregion
 }

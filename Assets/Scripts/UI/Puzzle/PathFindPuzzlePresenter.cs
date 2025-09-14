@@ -1,14 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
+using System;
+
+using Cysharp.Threading.Tasks;
 
 using Common;
 using Creator;
-using Cysharp.Threading.Tasks;
 using GameSystem;
 using GameSystem.Event;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Table;
 using UI.Puzzle;
 using UnityEngine.EventSystems;
@@ -103,6 +104,7 @@ namespace UI.Puzzle
 
         private async UniTask ApplyPuzzlePieceAsync()
         {
+            await UniTask.Yield();
             AllDeactivatePuzzlePiece();
 
             var puzzleData = _iPathFindPuzzleView?.GetPuzzleData(_puzzleIndex);
@@ -125,10 +127,6 @@ namespace UI.Puzzle
                 int index = puzzleData.PieceIndices[i];
                 await ActivatePuzzlePieceAsync(index);
             }
-            
-            // // await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-            // if (_iPathFindPuzzleService.IsPuzzleSolved(puzzleData, ref _debugTmList))
-            //     PuzzleSolved();
         }
 
         private void ActivatePuzzlePiecePosition(Transform piecePositionTm, int childCount, PathFindPuzzleView.PuzzleData puzzleData)
@@ -214,26 +212,21 @@ namespace UI.Puzzle
 
                 puzzlePiece = null;
             }
-            //var puzzlePiece = _puzzlePieceList?.Find(piece => piece != null && !piece.IsActivate && !piece.IsArranged);
+            
             if (puzzlePiece == null)
+            {
                 puzzlePiece = await CreatePuzzlePieceAsync(puzzlePieceParam);
+                await UniTask.Yield();
+            }
             else
                 await puzzlePiece.ActivateWithParamAsync(puzzlePieceParam);
-            // puzzlePiece?.Activate(puzzlePieceParam);
-
+            
             // await UniTask.Yield();
-           
-            //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
-            // if (isDelay)
-            //     await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
-            // LayoutRebuilder.ForceRebuildLayoutImmediate(puzzlePiece.RectTm);
-            // Canvas.ForceUpdateCanvases();
-            
+            Debug.Log("Before = " + puzzlePiece.RectTm.anchoredPosition);
             Extensions.ScreenPointToLocalPointInRectangle(puzzlePiece.RectTm, puzzlePiecePosition.RectTm);
-            
+            Debug.Log(puzzlePiece.RectTm.anchoredPosition);
             Debug.Log("Piece ");
+            // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
 
         private void PuzzleSolved()

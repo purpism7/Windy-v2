@@ -74,7 +74,8 @@ namespace Creator
             await component.ActivateAsync();
             Debug.Log($"After {component}.ActivateAsync()");
             component.Activate();
-            Debug.Log($"{component}.{component.IsActivate}");
+            await component.AfterActivateAsync();
+            // Debug.Log($"{component}.{component.IsActivate}");
             // (component as BaseView<V>)?.CreatePresenter();
 
             return component as T;

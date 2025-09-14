@@ -19,7 +19,7 @@ namespace GameSystem
         [SerializeField] private RectTransform rootRectTm = null;
         [SerializeField] private RectTransform topRootRectTm = null;
         [SerializeField] private RectTransform rightRootRectTm = null;
-        [SerializeField] private RectTransform panelUIRootRectTm = null;
+        [SerializeField] private RectTransform viewUIRootRectTm = null;
         [SerializeField] private RectTransform worldUIRootRectTm = null;
         
         private List<Common.Component> _cachedUIComponentList = null;
@@ -29,7 +29,7 @@ namespace GameSystem
 
         public Camera UICamera => uiCmaera;
         public Canvas Canvas => canvas;
-        public RectTransform PanelUIRootRectTm => panelUIRootRectTm;
+        public RectTransform ViewUIRootRectTm => viewUIRootRectTm;
         public RectTransform WorldUIRootRectTm => worldUIRootRectTm;
 
         // public UI.IView CurrentIView { get; private set; } = null;
