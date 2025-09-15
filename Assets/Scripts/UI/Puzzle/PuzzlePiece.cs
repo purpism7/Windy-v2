@@ -76,7 +76,7 @@ namespace UI.Puzzle
             await UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override UniTask BeforeActivateAsync()
         {
             if (_param != null)
             {
@@ -102,7 +102,12 @@ namespace UI.Puzzle
             var canUse = CanUsePuzzlePiece;
             Extensions.SetActive(disabledRectTm, !canUse);
 
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

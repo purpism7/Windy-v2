@@ -27,15 +27,19 @@ namespace UI.Part
             await base.InitializeAsync();
         }
 
-        public override async UniTask ActivateAsync()
+        public override UniTask BeforeActivateAsync()
         {
-            await base.ActivateAsync();
-            
             Extensions.SetActive(talkTm, _param.EInteraction == EInteraction.Talk);
             Extensions.SetActive(questClearTm, _param.EInteraction == EInteraction.QuestClear);
 
             AppearEffectAsync().Forget();
-            await UniTask.CompletedTask;
+
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

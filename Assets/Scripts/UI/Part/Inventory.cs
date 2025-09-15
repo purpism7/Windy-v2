@@ -51,9 +51,14 @@ namespace UI.Part
             await UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override async UniTask BeforeActivateAsync()
         {
             await ApplyItemListAsync();
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         private void InitializeEmptySlotList()
@@ -139,8 +144,7 @@ namespace UI.Part
                 emptySlotParam.WithItemId(itemInfoList[i].Id)?
                     .WithItemCount(itemInfoList[i].Count);
 
-                emptySlot?.SetParam(emptySlotParam)?
-                    .ActivateAsync();
+                await emptySlot.ActivateWithParamAsync(emptySlotParam);
                 // _emptySlotList[i]?.Activate(emptySlotParam);
             }
         }

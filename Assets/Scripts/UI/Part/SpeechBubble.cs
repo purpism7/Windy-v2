@@ -53,7 +53,7 @@ namespace UI.Part
             await UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override async UniTask BeforeActivateAsync()
         {
             _isEnd = false;
             
@@ -64,6 +64,11 @@ namespace UI.Part
                 AppearEffectAsync().Forget();
 
             await UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

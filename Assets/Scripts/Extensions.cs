@@ -204,12 +204,12 @@ public static class Extensions
         if (!targetTm)
             return;
         
-        var parent = rectTm.parent as RectTransform;
-        if (!parent)
+        var parentRecTm = rectTm.parent.GetComponent<RectTransform> ();
+        if (!parentRecTm)
             return;
 
         var targetWorldPos = targetTm.position;
-        Vector3 localPos = parent.InverseTransformPoint(targetWorldPos);
+        Vector3 localPos = parentRecTm.InverseTransformPoint(targetWorldPos);
 
         rectTm.anchoredPosition = localPos;
     }

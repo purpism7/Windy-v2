@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 using Cysharp.Threading.Tasks;
 
@@ -12,7 +13,6 @@ using GameSystem;
 using GameSystem.Event;
 using Table;
 using UI.Puzzle;
-using UnityEngine.EventSystems;
 using static UI.Puzzle.PathFindPuzzleView;
 
 namespace UI.Puzzle
@@ -104,7 +104,6 @@ namespace UI.Puzzle
 
         private async UniTask ApplyPuzzlePieceAsync()
         {
-            await UniTask.Yield();
             AllDeactivatePuzzlePiece();
 
             var puzzleData = _iPathFindPuzzleView?.GetPuzzleData(_puzzleIndex);
@@ -175,6 +174,7 @@ namespace UI.Puzzle
             var puzzlePiece = await UICreator<PuzzlePiece, PuzzlePiece.Param>.Get
                  .SetRootTm(_iPathFindPuzzleView?.PieceRootRectTm)
                  .SetParam(puzzlePieceParam)
+                 .SetScale(Vector3.zero)
                  .CreateAsync();
 
              if (puzzlePiece == null)
@@ -212,21 +212,18 @@ namespace UI.Puzzle
 
                 puzzlePiece = null;
             }
-            
+
             if (puzzlePiece == null)
             {
                 puzzlePiece = await CreatePuzzlePieceAsync(puzzlePieceParam);
-                await UniTask.Yield();
+                Extensions.ScreenPointToLocalPointInRectangle(puzzlePiece.RectTm, puzzlePiecePosition.RectTm);
+                puzzlePiece.transform.localScale = Vector3.one;
             }
             else
+            {
                 await puzzlePiece.ActivateWithParamAsync(puzzlePieceParam);
-            
-            // await UniTask.Yield();
-            Debug.Log("Before = " + puzzlePiece.RectTm.anchoredPosition);
-            Extensions.ScreenPointToLocalPointInRectangle(puzzlePiece.RectTm, puzzlePiecePosition.RectTm);
-            Debug.Log(puzzlePiece.RectTm.anchoredPosition);
-            Debug.Log("Piece ");
-            // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+                Extensions.ScreenPointToLocalPointInRectangle(puzzlePiece.RectTm, puzzlePiecePosition.RectTm);
+            }
         }
 
         private void PuzzleSolved()

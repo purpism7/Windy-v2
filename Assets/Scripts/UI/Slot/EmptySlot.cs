@@ -64,9 +64,14 @@ namespace UI.Slot
             return UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override async UniTask BeforeActivateAsync()
         {
             await CreateItemSlotAsync();
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

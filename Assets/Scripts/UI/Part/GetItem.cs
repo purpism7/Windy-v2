@@ -35,14 +35,19 @@ namespace UI.Part
             await base.InitializeAsync();
         }
 
-        public override async UniTask ActivateAsync()
+        public override UniTask BeforeActivateAsync()
         {
-            await base.ActivateAsync();
-
             if(ApplyItemSprite())
                 AppearMoveUpEffectAsync().Forget();
             else
                 Deactivate();
+
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

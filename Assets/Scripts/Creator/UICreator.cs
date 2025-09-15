@@ -9,6 +9,7 @@ using GameSystem;
 
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using System;
 
 namespace Creator
 {
@@ -18,6 +19,7 @@ namespace Creator
         private Transform _rootTm = null;
         private bool _worldUI = false;
         private bool _initializeSize = false;
+        private Vector3? _scale = Vector3.one;
   
         public UICreator<T, V> SetParam(V param = null) 
         {
@@ -42,6 +44,12 @@ namespace Creator
             _rootTm = rootTm;
             return this;
         }
+
+        public UICreator<T, V> SetScale(Vector3 scale)
+        {
+            _scale = scale;
+            return this;
+        }
         
         public async UniTask<T> CreateAsync()
         {
@@ -54,7 +62,7 @@ namespace Creator
             if (rectTm)
             {
                 rectTm.anchoredPosition3D = Vector3.zero;
-                rectTm.transform.localScale = Vector3.one;
+                rectTm.transform.localScale = _scale.Value;
                 
                 if(_worldUI || _initializeSize)
                     rectTm.sizeDelta = Vector2.zero;
@@ -70,13 +78,11 @@ namespace Creator
                     baseView.CreatePresenter();
             }
             
-            Debug.Log($"Before {component}.ActivateAsync()");
-            await component.ActivateAsync();
-            Debug.Log($"After {component}.ActivateAsync()");
+            await component.BeforeActivateAsync();
             component.Activate();
+
+            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
             await component.AfterActivateAsync();
-            // Debug.Log($"{component}.{component.IsActivate}");
-            // (component as BaseView<V>)?.CreatePresenter();
 
             return component as T;
         }

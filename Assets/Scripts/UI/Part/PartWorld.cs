@@ -29,9 +29,14 @@ namespace UI.Part
             await UniTask.CompletedTask;
         }
         
-        public override async UniTask ActivateAsync()
+        public override UniTask BeforeActivateAsync()
         {
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void ChainUpdate()

@@ -62,7 +62,8 @@ namespace Common
         protected T _param = null;
 
         public abstract UniTask InitializeAsync();
-        public abstract UniTask ActivateAsync();
+        public abstract UniTask BeforeActivateAsync();
+        public abstract UniTask AfterActivateAsync();
 
         public Component<T> SetParam(T param)
         {
@@ -74,16 +75,14 @@ namespace Common
 
         public async UniTask<Component<T>> ActivateWithParamAsync(T param)
         {
-            await SetParam(param).ActivateAsync();
+            SetParam(param);
 
+            await BeforeActivateAsync();
             Activate();
 
-            return this;
-        }
+            await AfterActivateAsync();
 
-        public virtual UniTask AfterActivateAsync()
-        {
-            return UniTask.CompletedTask;
+            return this;
         }
     }
 }

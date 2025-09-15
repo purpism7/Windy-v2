@@ -41,18 +41,17 @@ namespace UI.Slot
             await UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override async UniTask BeforeActivateAsync()
         {
             if (_param == null)
                 return;
-            
             // if (_data.ItemCount <= 0)
             // {
             //     Deactivate();
             //     return;
             // }
-            
-            if(_param.ItemId != _itemId)
+
+            if (_param.ItemId != _itemId)
                 ApplyItemSprite();
             
             ApplyItemCount();
@@ -60,6 +59,11 @@ namespace UI.Slot
             _itemId = _param.ItemId;
 
             await UniTask.CompletedTask;
+        }
+
+        public override UniTask AfterActivateAsync()
+        {
+            return UniTask.CompletedTask;
         }
 
         public override void Deactivate()

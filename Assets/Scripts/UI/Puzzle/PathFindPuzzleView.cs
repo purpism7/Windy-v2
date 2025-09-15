@@ -89,7 +89,7 @@ namespace UI.Puzzle
             await UniTask.CompletedTask;
         }
 
-        public override async UniTask ActivateAsync()
+        public override UniTask BeforeActivateAsync()
         {
             int puzzleIndex = _param != null ? _param.PuzzleIndex : 0;
             puzzleIndex -= 1;
@@ -105,12 +105,12 @@ namespace UI.Puzzle
             //     .ActivateAsync();
             
             Manager.Get<IInputLocker>()?.Lock(EInputLock.Axis);
+
+            return UniTask.CompletedTask;
         }
 
         public override async UniTask AfterActivateAsync()
         {
-            await base.AfterActivateAsync();
-            
             await _iPathFindPuzzlePresenter
                 .SetPuzzleIndex(_puzzleIndex)
                 .ActivateAsync();
