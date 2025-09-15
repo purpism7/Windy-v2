@@ -96,8 +96,8 @@ namespace Creature.Interactions
             _iInteractable?.SkeletonAnimation?.SetAnimation("disappear_still", true);
             _iInteractable?.Deactivate(_data.EItemInteraction != EItemInteraction.Axe);
             
-            if(_data.EItemInteraction != EItemInteraction.Axe)
-                MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
+            // if(_data.EItemInteraction != EItemInteraction.Axe)
+                // MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
         }
     }
 }
