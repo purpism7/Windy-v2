@@ -23,16 +23,6 @@ namespace Common
         PathFindPuzzle,
     }
 
-// [System.Flags]
-// public enum EInteractableAction
-// {
-//     None = 0,
-//     
-//     CutDown = 1 << 0,
-//     Break = 1 << 1,
-//     PickUp = 1 << 2,
-// }
-
     public enum EItem
     {
         None,

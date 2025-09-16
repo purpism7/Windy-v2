@@ -21,6 +21,7 @@ namespace Creature
         EItem EItem { get; }
         EItemInteraction EItemInteraction { get; }
         void SetPosition(Vector3 pos);
+        void Broken();
     }
     
     public class Object : Common.Component, IObject
@@ -29,12 +30,15 @@ namespace Creature
         [SerializeField] private EItemInteraction eItemInteraction = EItemInteraction.None;
         [SerializeField] private int orderOffset = 0;
 
+        private const float RespawnTime = 10f * 60f * 60f;
+
         private MeshRenderer _meshRenderer = null;
         private InteractionObjectMediator _interactionObjectMediator = null;
         private SpriteRenderer[] _spriteRenderers = null;
         private int _order = 0;
-        //private NavMeshModifierVolume[] _navMeshModifierVolumes = null;
         
+        private float _remainRespawnTime = 0f;
+
         public SkeletonAnimation SkeletonAnimation { get; private set; } = null;
         public IInteractionController IInteractionCtr { get; private set; } = null;
         public Collider2D Collider { get; private set; } = null;
@@ -183,11 +187,30 @@ namespace Creature
         //    }
         //}
         
+        private async UniTask SetRespawnTimeAsync()
+        {
+            _remainRespawnTime = RespawnTime;
+
+            while(_remainRespawnTime > 0)
+            {
+                _remainRespawnTime -= Time.deltaTime;
+                await UniTask.Yield();
+            }
+
+            Activate();
+        }
+
         #region IObject
 
         void IObject.SetPosition(Vector3 position)
         {
            Transform.position = position;
+        }
+
+        void IObject.Broken()
+        {
+            if(!_isActivate && EItemInteraction != EItemInteraction.None)
+                SetRespawnTimeAsync().Forget();
         }
         #endregion
     }

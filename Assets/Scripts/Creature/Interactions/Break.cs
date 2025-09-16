@@ -71,8 +71,8 @@ namespace Creature.Interactions
             var randomIndex = UnityEngine.Random.Range(0, objectData.DropItemIds.Length);
             
             int dropItemId = objectData.DropItemIds[randomIndex];
-            var obj = Manager.Get<IObjectManager>()
-                ?.CreateItemObject(dropItemId, Manager.Get<IRegion>()?.ItemObjectRootTm, _data.Position);
+            var obj = Manager.Get<IObjectManager>()?
+                .CreateItemObject(dropItemId, Manager.Get<IRegion>()?.ItemObjectRootTm, _data.Position);
             
             AnimDropItem(obj?.Transform);   
         }
@@ -95,9 +95,9 @@ namespace Creature.Interactions
         {
             _iInteractable?.SkeletonAnimation?.SetAnimation("disappear_still", true);
             _iInteractable?.Deactivate(_data.EItemInteraction != EItemInteraction.Axe);
-            
-            // if(_data.EItemInteraction != EItemInteraction.Axe)
-                // MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
+
+            if (_iInteractable is IObject iObject)
+                iObject.Broken();
         }
     }
 }
