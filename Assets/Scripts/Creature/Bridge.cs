@@ -9,7 +9,7 @@ namespace Creature
         [SerializeField] private Transform bridgeTm = null;
         [SerializeField] private Transform brokenBridgeTm = null;
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -30,7 +30,7 @@ namespace Creature
             Extensions.SetActive(bridgeTm, true);
             Extensions.SetActive(brokenBridgeTm, true);
             
-            MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
+            //MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
         }
 
         private void OnChangedEvent(GameSystem.Event.Quest data)

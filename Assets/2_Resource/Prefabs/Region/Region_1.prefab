@@ -399,9 +399,9 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 2779195580928973864, guid: ce8b89f2baea04a6d882d331b9d6424e, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 2019149317656614922}
   - key: {fileID: 6309030322783737054, guid: ce8b89f2baea04a6d882d331b9d6424e, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 2848028725506324421}
   - key: {fileID: -6080174992758290753, guid: ce8b89f2baea04a6d882d331b9d6424e, type: 2}
     value: {fileID: 6662393554463534495}
   m_ExposedReferences:
@@ -18309,6 +18309,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8302146423865822603, guid: 31626ebcffc7248e182f50d1cda9772e, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 3919247974867302456}
+    - target: {fileID: 8302146423865822603, guid: 31626ebcffc7248e182f50d1cda9772e, type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 3919247974867302456}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23613,6 +23621,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 400c9b223a1684109b45c85b82a92a3b, type: 3}
+--- !u!1 &2019149317656614922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6507960862256165853, guid: 400c9b223a1684109b45c85b82a92a3b, type: 3}
+  m_PrefabInstance: {fileID: 5068131190377638871}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2848028725506324421 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7049159803966381074, guid: 400c9b223a1684109b45c85b82a92a3b, type: 3}
+  m_PrefabInstance: {fileID: 5068131190377638871}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3919247974867302456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8085765851122963439, guid: 400c9b223a1684109b45c85b82a92a3b, type: 3}

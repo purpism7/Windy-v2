@@ -16,7 +16,7 @@ namespace Common
         [SerializeField]
         private Transform rootTm = null;
 
-        private bool _isActivate = false;
+        protected bool _isActivate = false;
 
         public bool IsActivate
         {

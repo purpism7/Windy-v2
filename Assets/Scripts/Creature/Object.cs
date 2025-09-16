@@ -23,25 +23,21 @@ namespace Creature
         void SetPosition(Vector3 pos);
     }
     
-    public class Object : MonoBehaviour, IObject
+    public class Object : Common.Component, IObject
     {
-        [SerializeField] 
-        private int id = 0;
-        [SerializeField] private Transform rootTm = null;
-        [SerializeField] 
-        private EItemInteraction eItemInteraction = EItemInteraction.None;
+        [SerializeField] private int id = 0;
+        [SerializeField] private EItemInteraction eItemInteraction = EItemInteraction.None;
         [SerializeField] private int orderOffset = 0;
 
         private MeshRenderer _meshRenderer = null;
         private InteractionObjectMediator _interactionObjectMediator = null;
-        private SpriteRenderer _spriteRenderer = null;
+        private SpriteRenderer[] _spriteRenderers = null;
         private int _order = 0;
-        private NavMeshModifierVolume[] _navMeshModifierVolumes = null;
+        //private NavMeshModifierVolume[] _navMeshModifierVolumes = null;
         
         public SkeletonAnimation SkeletonAnimation { get; private set; } = null;
         public IInteractionController IInteractionCtr { get; private set; } = null;
         public Collider2D Collider { get; private set; } = null;
-        public bool IsActivate { get; private set; } = false;
 
         public EItem EItem { get; private set; } = EItem.None;
 
@@ -67,16 +63,18 @@ namespace Creature
             Initialize();
         }
 
-        protected virtual void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             InitializeSkeletonAnimation();
             InitializeAnimationController();
             InitializeInteractionObjectMediator();
 
-            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
             Collider = GetComponentInChildren<Collider2D>(true);
 
-            _navMeshModifierVolumes = GetComponentsInChildren<NavMeshModifierVolume>(true);
+            //_navMeshModifierVolumes = GetComponentsInChildren<NavMeshModifierVolume>(true);
             
             SortingOrder(-transform.position.y);
             Activate();
@@ -113,30 +111,29 @@ namespace Creature
             _interactionObjectMediator?.Initialize(this);
         }
         
-        public virtual void Activate()
+        public override void Activate()
         {
-            IInteractionCtr?.Activate();
+            base.Activate();
 
-            IsActivate = true;
+            IInteractionCtr?.Activate();
             
-            EnableNavMeshModifierVolume(true);
-            Extensions.SetActive(rootTm, true);
+            //EnableNavMeshModifierVolume(true);
         }
 
         public virtual void Deactivate(bool deactivateTm = false)
         {
-            IInteractionCtr?.Deactivate();
+            _isActivate = false;
 
-            IsActivate = false;
+            IInteractionCtr?.Deactivate();
 
             if (deactivateTm)
             {
                 // 일단 바위만
-                if(eItemInteraction == EItemInteraction.Hammer ||
-                   eItemInteraction == EItemInteraction.Pickaxe)
-                    EnableNavMeshModifierVolume(false);
-                
-                Extensions.SetActive(rootTm, false);
+                //if(eItemInteraction == EItemInteraction.Hammer ||
+                //   eItemInteraction == EItemInteraction.Pickaxe)
+                //    EnableNavMeshModifierVolume(false);
+
+                base.Deactivate();
             }
         }
         
@@ -146,12 +143,21 @@ namespace Creature
             sortingOrder += orderOffset;
                 
 #if UNITY_EDITOR
-            if (_spriteRenderer == null)
-                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (_spriteRenderers == null)
+                _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 #endif
             
-            if (_spriteRenderer != null)
-                _spriteRenderer.sortingOrder = sortingOrder;
+            if (_spriteRenderers != null)
+            {
+                foreach (var spriteRenderer in _spriteRenderers)
+                {
+                    if(spriteRenderer == null)
+                        continue;
+                    
+                    spriteRenderer.sortingOrder = sortingOrder;
+                }
+            }
+                //_spriteRenderer.sortingOrder = sortingOrder;
             
 #if UNITY_EDITOR 
             InitializeSkeletonAnimation();
@@ -163,19 +169,19 @@ namespace Creature
             _order = sortingOrder;
         }
 
-        private void EnableNavMeshModifierVolume(bool enable)
-        {
-            if (_navMeshModifierVolumes == null)
-                return;
+        //private void EnableNavMeshModifierVolume(bool enable)
+        //{
+        //    if (_navMeshModifierVolumes == null)
+        //        return;
             
-            foreach (var navMeshModifierVolume in _navMeshModifierVolumes)
-            {
-                if(navMeshModifierVolume == null)
-                    continue;
+        //    foreach (var navMeshModifierVolume in _navMeshModifierVolumes)
+        //    {
+        //        if(navMeshModifierVolume == null)
+        //            continue;
                 
-                navMeshModifierVolume.enabled = enable;
-            }
-        }
+        //        navMeshModifierVolume.enabled = enable;
+        //    }
+        //}
         
         #region IObject
 
