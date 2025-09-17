@@ -6,7 +6,7 @@ namespace Table
     public class Data
     {
         [JsonProperty("id")]
-        public int Id { get; private set; } = 0;
+        public int Id = 0;
     }
 }
 

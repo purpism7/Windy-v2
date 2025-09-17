@@ -10,17 +10,17 @@ namespace Table
     public sealed class QuestData : Data
     {
         [JsonProperty("group")]
-        public int Group { get; private set; } = 0;
+        public int Group = 0;
         
         [JsonProperty("step")]
-        public int Step { get; private set; } = 0;
+        public int Step = 0;
         
         [JsonProperty("condition_1")]
-        public EMissionCondition EMissionCondition1 { get; private set; } = EMissionCondition.None;
+        public EMissionCondition EMissionCondition1 = EMissionCondition.None;
         
         [JsonProperty("value_1")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
-        public int[] Value1 { get; private set; } = null;
+        public int[] Value1 = null;
         
         [JsonProperty("condition_2")]
         public EMissionCondition EMissionCondition2 { get; private set; } = EMissionCondition.None;
