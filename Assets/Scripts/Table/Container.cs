@@ -1,8 +1,10 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System;
-
 using Newtonsoft.Json;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst.Intrinsics;
+using UnityEngine;
 
 namespace Table
 {
@@ -124,6 +126,31 @@ namespace Table
         
             return list.ToArray();
         }
+
+#if UNITY_EDITOR
+        public bool Add(V data)
+        {
+            if (data == null)
+                return false;
+
+            if (GetData(data.Id) != null)
+                return false;
+
+            Array.Resize(ref _datas, _datas.Length + 1);
+            _datas[_datas.Length - 1] = data;
+
+            return true;
+        }
+        public bool Remove(int id)
+        {
+            if (id <= 0)
+                return false;
+
+            _datas = _datas?.Where(data => data.Id != id)?.ToArray();
+
+            return true;
+        }
+#endif
     }
 }
 

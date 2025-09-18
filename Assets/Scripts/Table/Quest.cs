@@ -23,14 +23,14 @@ namespace Table
         public int[] Value1 = null;
         
         [JsonProperty("condition_2")]
-        public EMissionCondition EMissionCondition2 { get; private set; } = EMissionCondition.None;
+        public EMissionCondition EMissionCondition2 = EMissionCondition.None;
         
         [JsonProperty("value_2")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
-        public int[] Value2 { get; private set; } = null;
+        public int[] Value2 = null;
         
         [JsonProperty("npc_id")]
-        public int NpcId { get; private set; } = 0;
+        public int NpcId = 0;
         
         [JsonProperty("complete_talk_local_ids")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
