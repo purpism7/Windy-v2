@@ -136,11 +136,28 @@ namespace Table
             if (GetData(data.Id) != null)
                 return false;
 
-            Array.Resize(ref _datas, _datas.Length + 1);
-            _datas[_datas.Length - 1] = data;
+            var list = _datas?.ToList();
+            list?.Add(data);
+            _datas = list.ToArray();
 
             return true;
         }
+
+        public bool Insert(V data, int index)
+        {
+            if (data == null)
+                return false;
+
+            if (GetData(data.Id) != null)
+                return false;
+
+            var list = _datas?.ToList();
+            list.Insert(index, data);
+            _datas = list.ToArray();
+
+            return true;
+        }
+
         public bool Remove(int id)
         {
             if (id <= 0)
@@ -149,6 +166,11 @@ namespace Table
             _datas = _datas?.Where(data => data.Id != id)?.ToArray();
 
             return true;
+        }
+
+        public void OrderBy()
+        {
+            _datas = _datas?.OrderBy(_ => _.Id)?.ToArray();
         }
 #endif
     }

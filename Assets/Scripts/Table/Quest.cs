@@ -32,17 +32,26 @@ namespace Table
         [JsonProperty("npc_id")]
         public int NpcId = 0;
         
-        [JsonProperty("complete_talk_local_ids")]
-        [JsonConverter(typeof(JsonConverter<int[]>))]
-        public int[] CompleteTalkLocalIds { get; private set; } = null;
-        
+        //[JsonProperty("complete_talk_local_ids")]
+        //[JsonConverter(typeof(JsonConverter<int[]>))]
+        //public int[] CompleteTalkLocalIds { get; private set; } = null;
+
+        [JsonProperty("complete_talk_id")]
+        public int CompleteTalkId = 0;
+
         [JsonProperty("reward_ids")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
         public int[] RewardIds { get; private set; } = null;
+
+        [JsonProperty("reward_id")]
+        [JsonConverter(typeof(JsonConverter<int[]>))]
+        public int RewardId = 0;
         
         [JsonProperty("recipe_ids")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
-        public int[] RecipeIds { get; private set; } = null;
+        public int[] RecipeIds = null;
+
+        public string CutsceneKey = string.Empty;
 
         public List<(EMissionCondition, int[])> ConditionList
         {

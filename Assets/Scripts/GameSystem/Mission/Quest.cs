@@ -199,23 +199,27 @@ namespace GameSystem.Mission
         }
 
         private async UniTask GetRewardAsync()
-        {
-            var rewardIds = CurrentQuestData?.RewardIds;
-            if (rewardIds.IsNullOrEmpty())
+        { 
+            if (CurrentQuestData.RewardId <= 0)
                 return;
 
-            for (int i = 0; i < rewardIds?.Length; ++i)
-            {
-                int rewardId = rewardIds[i];
-                var rewardData = RewardDataContainer.Instance?.GetData(rewardId);
+            //var rewardIds = CurrentQuestData?.RewardIds;
+            //if (rewardIds.IsNullOrEmpty())
+            //    return;
+
+            //for (int i = 0; i < rewardIds?.Length; ++i)
+            //{
+                //int rewardId = rewardIds[i];
+                var rewardData = RewardDataContainer.Instance?.GetData(CurrentQuestData.RewardId);
                 if(rewardData == null)
-                    continue;
+                    return;
                 
                 RequestAddItem(rewardData.ItemId, rewardData.ItemCount);
 
-                if (rewardIds.Length > i)
-                    await UniTask.Yield();
-            }
+            //    if (rewardIds.Length > i)
+            //        await UniTask.Yield();
+            //}
+            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
         }
 
         private void GetRecipe()

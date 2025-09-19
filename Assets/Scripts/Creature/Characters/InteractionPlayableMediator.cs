@@ -189,7 +189,9 @@ namespace Creature.Characters
                         (callback) =>
                         {
                             completedActionCallback = callback;
-                            TalkWithNpc(nonPlayable, currentQuestData.CompleteTalkLocalIds, true);
+
+                            var talkData = TalkDataContainer.Instance.GetData(currentQuestData.CompleteTalkId);
+                            TalkWithNpc(nonPlayable, talkData.TalkLocalIds, true);
                         }))
                     return true;
             }
@@ -201,7 +203,6 @@ namespace Creature.Characters
 
         private bool TalkWithNpc(NonPlayable nonPlayable, int[] talkLocalIds, bool exceptionNotify)
         {
-            // var talkLocalIds = talkData.TalkLocalIds;
             if (talkLocalIds.IsNullOrEmpty())
                 return false;
 
