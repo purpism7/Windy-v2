@@ -120,6 +120,7 @@ namespace UI.Part
                     .WithItemId(recipeData.ResultItemId);
 
                 await emptySlot.ActivateWithParamAsync(emptySlotParam);
+                // emptySlot.transform.SetActive(true);
             }
         }
 
@@ -176,8 +177,8 @@ namespace UI.Part
             if(recipeData == null)
                 return;
 
-            var itemSlotParam = new ItemSlot.Param(itemId)
-                .WithItemCount(recipeData.ResultItemCount);
+            // var itemSlotParam = new ItemSlot.Param(itemId)
+            //     .WithItemCount(recipeData.ResultItemCount);
             
             // selectedItemSlot?.Activate(itemSlotParam);
             // var sprite = AtlasManager.Instance.GetSprite(EAtlasKey.UIItems, itemData.ImageName);
@@ -211,6 +212,7 @@ namespace UI.Part
             for (int i = 0; i < _materialItemSlotList.Count; ++i)
             {
                 _materialItemSlotList[i]?.Deactivate();
+                _materialItemSlotList[i]?.transform.SetActive(false);
             }
         }
         
@@ -260,6 +262,7 @@ namespace UI.Part
             }
 
             await materialItemSlot.ActivateWithParamAsync(itemSlotParam);
+            materialItemSlot.transform.SetActive(true);
         }
         #endregion
 

@@ -43,13 +43,13 @@ namespace GameSystem.Mission
             CurrentQuestData = QuestDataContainer.Instance?.GetData(questInfo.Group, questInfo.Step);
         }
 
-        private void SetNextQuest()
+        public void SetNextQuest(int questGroup, int nextQuestStep)
         {
             if (CurrentQuestData == null)
                 return;
 
-            var questGroup = CurrentQuestData.Group;
-            var nextQuestStep = CurrentQuestData.Step + 1;
+            // var questGroup = CurrentQuestData.Group;
+            // var nextQuestStep = CurrentQuestData.Step + 1;
             var questData = QuestDataContainer.Instance?.GetData(questGroup, nextQuestStep);
             if (questData == null)
             {
@@ -289,7 +289,10 @@ namespace GameSystem.Mission
             await GetRewardAsync();
             GetRecipe();
             
-            SetNextQuest();
+            var questGroup = CurrentQuestData.Group;
+            var nextQuestStep = CurrentQuestData.Step + 1;
+            SetNextQuest(questGroup, nextQuestStep);
+            
             if (CurrentQuestData != null)
                 RequestSaveQuest(CurrentQuestData.Group, CurrentQuestData.Step);
         }

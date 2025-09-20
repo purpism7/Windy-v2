@@ -160,7 +160,7 @@ namespace Creature.Characters
         }
         #region
 
-        private void OnChanged(GameSystem.Event.ChangeQuest questClear)
+        private void OnChanged(GameSystem.Event.ChangeQuest changeQuest)
         {
             _talkIds = null;
         }

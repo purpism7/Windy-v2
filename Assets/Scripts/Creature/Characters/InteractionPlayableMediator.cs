@@ -189,9 +189,10 @@ namespace Creature.Characters
                         (callback) =>
                         {
                             completedActionCallback = callback;
-
-                            var talkData = TalkDataContainer.Instance.GetData(currentQuestData.CompleteTalkId);
-                            TalkWithNpc(nonPlayable, talkData.TalkLocalIds, true);
+                            
+                            TalkWithNpc(nonPlayable, currentQuestData.CompleteTalkLocalIds, true);
+                            // var talkData = TalkDataContainer.Instance?.GetData(currentQuestData.CompleteTalkId);
+                            // TalkWithNpc(nonPlayable, talkData.TalkLocalIds, true);
                         }))
                     return true;
             }

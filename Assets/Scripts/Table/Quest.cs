@@ -32,9 +32,9 @@ namespace Table
         [JsonProperty("npc_id")]
         public int NpcId = 0;
         
-        //[JsonProperty("complete_talk_local_ids")]
-        //[JsonConverter(typeof(JsonConverter<int[]>))]
-        //public int[] CompleteTalkLocalIds { get; private set; } = null;
+        [JsonProperty("complete_talk_local_ids")]
+        [JsonConverter(typeof(JsonConverter<int[]>))]
+        public int[] CompleteTalkLocalIds = null;
 
         [JsonProperty("complete_talk_id")]
         public int CompleteTalkId = 0;

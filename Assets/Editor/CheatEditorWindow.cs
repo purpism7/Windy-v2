@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework.Interfaces;
 using System.IO;
+using GameSystem;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ using Table;
 using GameSystem.Event;
 using Network;
 using Network.Api;
+using Network.Api.Quest;
+
+using Quest = GameSystem.Mission.Quest;
 
 public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.Response>
 {
@@ -23,6 +27,13 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
     private ItemDataContainer _itemDataContainer = null;
     private LocalDataContainer _localDataContainer = null;
 
+    #region Quest
+
+    private static bool _initializeQuest = false;
+    private int _questGroup = 0;
+    private int _questStep = 0;
+    #endregion
+    
     #region Item
     
     private int _itemId = 0;
@@ -35,13 +46,25 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
         LoadLocalDatas();
     }
 
+    [InitializeOnEnterPlayMode]
+    static void OnEnterPlayMode()
+    {
+        // 여기에 값을 초기화하거나 로직 추가
+        Debug.Log("▶ 에디터에서 Play 모드 진입! 값 갱신 실행됨");
+        
+        GameSystem.Event.EventDispatcher.Register<GameSystem.Event.ChangeQuest>(OnChanged);
+        
+        _initializeQuest = false;
+        
+    }
+
     void OnGUI()
     {
         using (new EditorGUILayout.VerticalScope("helpbox"))
         {
-            DrawTabs();
-            EditorGUILayout.Space(5);
-
+            // DrawTabs();
+            // EditorGUILayout.Space(5);
+            DrawQuestView();
             DrawItemView();
         }
         EditorGUILayout.Space(2);
@@ -99,7 +122,75 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
             _scroll.y = 0;
         }
     }
+    #region Quest
 
+    private void DrawQuestView()
+    {
+        if (!_initializeQuest)
+        {
+            var currentQuestData = Manager.Get<IMission>()?.Quest?.CurrentQuestData;
+            if (currentQuestData != null)
+            {
+                _questGroup = currentQuestData.Group;
+                _questStep = currentQuestData.Step;
+
+                _initializeQuest = true;
+            }
+        }
+        
+        EditorGUILayout.BeginVertical("helpbox");
+        
+        {
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Change"))
+            {
+                var questData = QuestDataContainer.Instance?.GetData(_questGroup, _questStep);
+                if (questData == null)
+                {
+                    ShowNotification(new GUIContent("No quest data found"));
+                    return;
+                }
+
+                var quest = Manager.Get<IMission>()?.Quest;
+                if (quest != null)
+                {
+                    quest.SetNextQuest(_questGroup, _questStep);
+                    RequestSaveQuest(quest.CurrentQuestData.Group, quest.CurrentQuestData.Step);
+                }
+            }
+            
+            EditorGUILayout.Space(20f);
+            _questGroup = EditorGUILayout.IntField("Quest Group", _questGroup);
+            EditorGUILayout.Space(20f);
+            _questStep = EditorGUILayout.IntField("Quest Step", _questStep);
+            
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(3f);
+            
+        }
+        
+        EditorGUILayout.EndVertical();
+    }
+    
+    private void RequestSaveQuest(int questGroup, int questStep)
+    {
+        var request = SaveQuest.CreateRequest<SaveQuest>(
+            new SaveQuest.Request
+            {
+                QuestGroup = questGroup,
+                QuestStep = questStep,
+            });
+                    
+        ApiClient.Instance?.RequestPost(request);
+    }
+
+    private static void OnChanged(GameSystem.Event.ChangeQuest changeQuest)
+    {
+        _initializeQuest = false;
+    }
+    #endregion
+
+    #region Item
     private void DrawItemView()
     {
         EditorGUILayout.BeginVertical("helpbox");
@@ -109,8 +200,6 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
         {
             RequestAddItem(_itemId, _itemCount);
         }
-
-        //
 
         string resItemName = string.Empty;
         var itemData = _itemDataContainer?.GetData(_itemId);
@@ -126,13 +215,14 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
         }
 
         EditorGUILayout.Space(20f);
-        EditorGUILayout.LabelField(resItemName, LabelGUIStyle, GUILayout.Width(300f));
+        EditorGUILayout.LabelField(resItemName, LabelGUIStyle);
 
         _itemId = EditorGUILayout.IntField("Item Id", _itemId);
         EditorGUILayout.Space(20);
         _itemCount = EditorGUILayout.IntField("Item Count", _itemCount);
 
         EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space(3f);
 
         EditorGUILayout.EndVertical();
     }
@@ -163,4 +253,5 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
         _itemId = 0;
         _itemCount = 0;
     }
+    #endregion
 }

@@ -21,7 +21,8 @@ namespace Table
         [JsonConverter(typeof(JsonConverter<int[]>))]
         public int[] TalkLocalIds = null;
 
-        public List<int> TalkLocalIdList = null;
+        // [Jsonex]
+        // public List<int> TalkLocalIdList = null;
     }
 }
 
