@@ -13,7 +13,7 @@ namespace GameSystem
     {
         private List<IGeneric> _iMgrGenericList = null;
         private DayNightCycle _dayNightCycle = null;
-
+        
         public IWeatherManager IWeatherManager { get; private set; } = null;
         public NavMeshPlus.Components.NavMeshSurface NavMeshSurface { get; private set; } = null;
         public IEnumerable<IGeneric> IMgrGenericList => _iMgrGenericList;

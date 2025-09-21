@@ -273,7 +273,8 @@ namespace Creature.Characters
             if (!_interactionIObj.IsActivate)
                 return;
 
-            if (_interactionIObj.EItem != EItem.Material)
+            if (_interactionIObj.EItem != EItem.Material &&
+                _interactionIObj.EItem != EItem.Recipe)
                 return;
             
             iActCtr.ExecuteAsync<PickUp, PickUp.Param>(

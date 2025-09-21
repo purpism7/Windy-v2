@@ -73,7 +73,7 @@ namespace GameSystem.Mission
             Event.EventDispatcher.Dispatch(new Event.ChangeQuest());
         }
         
-        private void RequestSaveQuest(int questGroup, int questStep)
+        public void RequestSaveQuest(int questGroup, int questStep)
         {
             var request = SaveQuest.CreateRequest<SaveQuest>(
                 new SaveQuest.Request

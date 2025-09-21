@@ -26,12 +26,14 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
 
     private ItemDataContainer _itemDataContainer = null;
     private LocalDataContainer _localDataContainer = null;
+    private QuestDataContainer _questDataContainer = null;
 
     #region Quest
 
     private static bool _initializeQuest = false;
     private int _questGroup = 0;
     private int _questStep = 0;
+    
     #endregion
     
     #region Item
@@ -44,6 +46,7 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
     {
         LoadItemDatas();
         LoadLocalDatas();
+        LoadQuestDatas();
     }
 
     [InitializeOnEnterPlayMode]
@@ -99,6 +102,12 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
         var filePath = "Assets/3_Table/Local.json";
         LoadDatas(filePath, ref _localDataContainer);
     }
+    
+    private void LoadQuestDatas()
+    {
+        var filePath = "Assets/3_Table/Quest.json";
+        LoadDatas(filePath, ref _questDataContainer);
+    }
 
     private GUIStyle LabelGUIStyle
     {
@@ -144,7 +153,7 @@ public class CheatEditorWindow : EditorWindow, IApiResponse<Network.Api.AddItem.
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Change"))
             {
-                var questData = QuestDataContainer.Instance?.GetData(_questGroup, _questStep);
+                var questData = _questDataContainer?.GetData(_questGroup, _questStep);
                 if (questData == null)
                 {
                     ShowNotification(new GUIContent("No quest data found"));

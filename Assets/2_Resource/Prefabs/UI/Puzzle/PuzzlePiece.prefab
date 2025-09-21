@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 1526356877594308818}
   - component: {fileID: 339708998597125108}
   m_Layer: 5
-  m_Name: 16
+  m_Name: 303
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 11472348732348044}
   - component: {fileID: 1573996450600228513}
   m_Layer: 5
-  m_Name: 17
+  m_Name: 304
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1242,6 +1242,15 @@ MonoBehaviour:
   - index: 3
     itemId: 302
     puzzlePieceTm: {fileID: 1908208395745310567}
+  - index: 4
+    itemId: 303
+    puzzlePieceTm: {fileID: 5625386427232418854}
+  - index: 5
+    itemId: 304
+    puzzlePieceTm: {fileID: 5359621573205616693}
+  - index: 6
+    itemId: 305
+    puzzlePieceTm: {fileID: 5082216900216645578}
 --- !u!1 &5355432914661348633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,7 +1645,7 @@ GameObject:
   - component: {fileID: 3069221490673304868}
   - component: {fileID: 5414847408504734110}
   m_Layer: 5
-  m_Name: 18
+  m_Name: 305
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

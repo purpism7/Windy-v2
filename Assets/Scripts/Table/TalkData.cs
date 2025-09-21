@@ -20,9 +20,8 @@ namespace Table
         [JsonProperty("talk_local_ids")]
         [JsonConverter(typeof(JsonConverter<int[]>))]
         public int[] TalkLocalIds = null;
-
-        // [Jsonex]
-        // public List<int> TalkLocalIdList = null;
+        
+        public List<int> TalkLocalIdList = null;
     }
 }
 
