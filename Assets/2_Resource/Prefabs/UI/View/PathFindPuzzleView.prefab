@@ -3013,7 +3013,7 @@ MonoBehaviour:
     pieceSize: 162
     startPuzzlePoint: {fileID: 2840515365404608903}
   - puzzleGrid: {fileID: 5305476510648891983}
-    pieceIndices: 
+    pieceIndices: 040000000500000006000000
     pieceSize: 130
     startPuzzlePoint: {fileID: 6927489190526046918}
 --- !u!1 &4240696389909000754
