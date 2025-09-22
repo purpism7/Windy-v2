@@ -18,7 +18,7 @@ namespace Creature.Characters
     public interface INonPlayable
     {
         int Id { get; }
-        int[] TalkLocalIds { get; }
+        int[] GetTalkLocalIds(out bool isAlready);
         int[] RefreshTalkLocalIds();
     }
     
@@ -113,24 +113,26 @@ namespace Creature.Characters
         }
 
         #region INonPlayable
-        public int[] TalkLocalIds
+        public int[] GetTalkLocalIds(out bool isAlready)
         {
-            get
-            {
-                var currentQuestData = Manager.Get<IMission>()?.Quest?.CurrentQuestData;
-                if (currentQuestData == null)
-                    return null;
+            isAlready = false;
 
-                var talkData = TalkDataContainer.Instance?.GetData(Id, currentQuestData.Group, currentQuestData.Step);
-                if (talkData == null)
-                    return null;
-                
-                if (!_talkIds.IsNullOrEmpty() &&
-                    _talkIds.SequenceEqual(talkData.TalkLocalIds))
-                    return new[] { _talkIds.LastOrDefault() };
-                
-                return _talkIds;
+            var currentQuestData = Manager.Get<IMission>()?.Quest?.CurrentQuestData;
+            if (currentQuestData == null)
+                return null;
+
+            var talkData = TalkDataContainer.Instance?.GetData(Id, currentQuestData.Group, currentQuestData.Step);
+            if (talkData == null)
+                return null;
+
+            if (!_talkIds.IsNullOrEmpty() &&
+                _talkIds.SequenceEqual(talkData.TalkLocalIds))
+            {
+                isAlready = true;
+                return new[] { _talkIds.LastOrDefault() };
             }
+
+            return _talkIds;
         }
 
         public int[] RefreshTalkLocalIds()

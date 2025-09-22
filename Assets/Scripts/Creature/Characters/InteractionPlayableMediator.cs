@@ -174,10 +174,11 @@ namespace Creature.Characters
             var talkData = TalkDataContainer.Instance?.GetData(nonPlayable.Id, currentQuestData.Group, currentQuestData.Step);
             if (talkData == null)
                 return false;
-            
-            var talkLocalIds = nonPlayable.TalkLocalIds;
+
+            bool isAlready = false;
+            var talkLocalIds = nonPlayable.GetTalkLocalIds(out isAlready);
             if (!talkLocalIds.IsNullOrEmpty() &&
-                !talkLocalIds.SequenceEqual(talkData.TalkLocalIds))
+                !talkLocalIds.SequenceEqual(talkData.TalkLocalIds) || (talkData.TalkLocalIds.Length <= 1 && isAlready))
             {
                 if (CanOpenPathFindPuzzlePanel(currentQuestData))
                 {
