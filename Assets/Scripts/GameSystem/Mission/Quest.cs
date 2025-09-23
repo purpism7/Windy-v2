@@ -200,26 +200,22 @@ namespace GameSystem.Mission
 
         private async UniTask GetRewardAsync()
         { 
-            if (CurrentQuestData.RewardId <= 0)
+            var rewardIds = CurrentQuestData?.RewardIds;
+            if (rewardIds.IsNullOrEmpty())
                 return;
 
-            //var rewardIds = CurrentQuestData?.RewardIds;
-            //if (rewardIds.IsNullOrEmpty())
-            //    return;
-
-            //for (int i = 0; i < rewardIds?.Length; ++i)
-            //{
-                //int rewardId = rewardIds[i];
-                var rewardData = RewardDataContainer.Instance?.GetData(CurrentQuestData.RewardId);
-                if(rewardData == null)
-                    return;
+            for (int i = 0; i < rewardIds?.Length; ++i)
+            {
+                int rewardId = rewardIds[i];
+                var rewardData = RewardDataContainer.Instance?.GetData(rewardId);
+                if (rewardData == null)
+                    continue;
                 
                 RequestAddItem(rewardData.ItemId, rewardData.ItemCount);
 
-            //    if (rewardIds.Length > i)
-            //        await UniTask.Yield();
-            //}
-            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+                if (rewardIds.Length > i)
+                    await UniTask.Yield();
+            }
         }
 
         private void GetRecipe()
@@ -320,7 +316,6 @@ namespace GameSystem.Mission
 
                 case PathFindPuzzle pathFindPuzzle:
                 {
-                    Debug.Log("Here");
                     if (pathFindPuzzle.IsClear)
                         ClearQuestAsync().Forget();
                     

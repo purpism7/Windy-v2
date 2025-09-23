@@ -43,9 +43,9 @@ namespace Table
         [JsonConverter(typeof(JsonConverter<int[]>))]
         public int[] RewardIds { get; private set; } = null;
 
-        [JsonProperty("reward_id")]
-        [JsonConverter(typeof(JsonConverter<int[]>))]
-        public int RewardId = 0;
+        //[JsonProperty("reward_id")]
+        //[JsonConverter(typeof(JsonConverter<int[]>))]
+        //public int RewardId = 0;
         
         [JsonProperty("recipe_ids")]
         [JsonConverter(typeof(JsonConverter<int[]>))]

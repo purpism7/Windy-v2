@@ -73,7 +73,7 @@ namespace Common
             return this;
         }
 
-        public async UniTask<Component<T>> ActivateWithParamAsync(T param)
+        public async UniTask ActivateWithParamAsync(T param)
         {
             SetParam(param);
 
@@ -81,8 +81,6 @@ namespace Common
             Activate();
 
             await AfterActivateAsync();
-
-            return this;
         }
     }
 }

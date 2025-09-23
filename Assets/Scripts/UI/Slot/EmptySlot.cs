@@ -47,20 +47,23 @@ namespace UI.Slot
         }
 
         [SerializeField] private RectTransform itemSlotRootRectTm = null;
+        [SerializeField] private ItemSlot itemSlot = null;
         [SerializeField] private RectTransform selectedRectTm = null;
         [SerializeField] private UnityEngine.UI.Button btn = null;
 
-        private ItemSlot _itemSlot = null;
+        //private ItemSlot _itemSlot = null;
         
         public bool IsEmpty
         {
-            get { return _itemSlot == null; }
+            get { return !itemSlot.IsActivate; }
         }
 
         public override UniTask InitializeAsync()
         {
+            itemSlot?.Deactivate();
+
             btn?.onClick?.AddListener(OnClick);
-            
+
             return UniTask.CompletedTask;
         }
 
@@ -77,8 +80,8 @@ namespace UI.Slot
         public override void Deactivate()
         {
             // base.Deactivate();
-            
-            _itemSlot?.Deactivate();
+
+            itemSlot?.Deactivate();
         }
 
         private async UniTask CreateItemSlotAsync()
@@ -93,14 +96,14 @@ namespace UI.Slot
             var itemSlotParam = new ItemSlot.Param(itemData.Id)
                 .WithItemCount(_param.ItemCount);
             
-            if (_itemSlot == null)
-            {
-                _itemSlot = await UICreator<ItemSlot, ItemSlot.Param>.Get
-                    .SetRootTm(itemSlotRootRectTm)
-                    .CreateAsync();
-            }
+            //if (_itemSlot == null)
+            //{
+            //    _itemSlot = await UICreator<ItemSlot, ItemSlot.Param>.Get
+            //        .SetRootTm(itemSlotRootRectTm)
+            //        .CreateAsync();
+            //}
 
-            await _itemSlot.ActivateWithParamAsync(itemSlotParam);
+            await itemSlot.ActivateWithParamAsync(itemSlotParam);
         }
 
         #region IEmptySlot

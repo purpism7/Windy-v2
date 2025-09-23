@@ -94,7 +94,7 @@ namespace UI.Part
             if (_emptySlotList == null)
                 return;
 
-            await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
+            //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
             
             var recipeIdList = InfoManager.Get<Info.Recipe>()?.RecipeIdList;
             if (recipeIdList == null)

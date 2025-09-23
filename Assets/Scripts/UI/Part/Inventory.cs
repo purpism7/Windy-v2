@@ -122,12 +122,11 @@ namespace UI.Part
             if (_emptySlotList == null)
                 return;
 
-            await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
+            //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
             
             var itemInfoList = InfoManager.Get<Info.Inventory>()?.ItemList;
             if (itemInfoList == null)
                 return;
-
 
             for (int i = 0; i < _emptySlotList.Count; ++i)
             {
@@ -140,8 +139,8 @@ namespace UI.Part
                 if(itemInfoList.Count <= i)
                     continue;
                 
-                var emptySlotParam = new EmptySlot.Param();
-                emptySlotParam.WithItemId(itemInfoList[i].Id)?
+                var emptySlotParam = new EmptySlot.Param()
+                    .WithItemId(itemInfoList[i].Id)?
                     .WithItemCount(itemInfoList[i].Count);
 
                 await emptySlot.ActivateWithParamAsync(emptySlotParam);
