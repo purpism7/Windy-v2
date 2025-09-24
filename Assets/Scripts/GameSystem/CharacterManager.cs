@@ -12,21 +12,23 @@ using Creature.Characters;
 
 namespace GameSystem
 {
-    public interface ICharacter : IManager
+    public interface ICharacterManager : IManager
     { 
         UniTask<T> CreateAsync<T>(int id, Transform rootTm) where T : Creature.Character;
+
+        void InitializeNonPlayables(NonPlayable[] nonPlayables);
+        NonPlayable GetNonPlayable(int id);
     }
     
-    public class CharacterManager : Manager, ICharacter
+    public class CharacterManager : Manager, ICharacterManager
     {
         private Dictionary<int, Creature.Character> _characterDic = null;
+        private List<NonPlayable> _nonPlyableList = null;
         
         public static Playable Playable { get; private set; } = null;
 
         async UniTask<GameSystem.IGeneric> GameSystem.IGeneric.InitializeAsync()
-        {
-            await CreatePlayableAsync();
-            
+        {   
             return this;
         }
         
@@ -78,13 +80,13 @@ namespace GameSystem
             }
         }
 
-        private async UniTask CreatePlayableAsync()
+        public async UniTask CreatePlayableAsync()
         {
             Playable = await CreateAsync<Playable>(1, Manager.Get<IRegion>()?.PlayableRootTm);
             Playable?.Initialize();
         }
         
-        #region ICharacter
+        #region ICharacterManager
         public async UniTask<T> CreateAsync<T>(int id, Transform rootTm = null) where T : Character
         {
             var character = CharacterCreator<T>.Get
@@ -105,6 +107,40 @@ namespace GameSystem
             _characterDic?.TryAdd(character.Id, character);
             
             return character;
+        }
+
+        void ICharacterManager.InitializeNonPlayables(NonPlayable[] nonPlayables)
+        {
+            if (nonPlayables.IsNullOrEmpty())
+                return;
+
+            if(_nonPlyableList == null)
+            {
+                _nonPlyableList = new();
+                _nonPlyableList.Clear();
+            }
+
+            _nonPlyableList?.AddRange(nonPlayables);
+
+            for(int i = 0; i < _nonPlyableList.Count; ++i)
+            {
+                _nonPlyableList[i]?.Initialize();
+            }
+        }
+
+        NonPlayable ICharacterManager.GetNonPlayable(int id)
+        {
+            for (int i = 0; i < _nonPlyableList.Count; ++i)
+            {
+                var nonPlayable = _nonPlyableList[i];
+                if (nonPlayable == null)
+                    continue;
+
+                if (nonPlayable.Id == id)
+                    return nonPlayable;
+            }
+
+            return null;
         }
 
         // public async UniTask<T> LoadAsync<T>(int id, Transform rootTm = null) where T : Character

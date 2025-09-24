@@ -19,6 +19,7 @@ namespace Common
         None,
     
         TalkNpc,
+        TalkNpcs,
         BringItem,
         PathFindPuzzle,
     }

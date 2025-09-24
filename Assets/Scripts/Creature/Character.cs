@@ -124,8 +124,6 @@ namespace Creature
             {
                 Height += renderer.bounds.size.y;
                 Height += heightOffest;
-                Debug.Log(Height);
-                //HeadPos = renderer.bounds.max;
             }
         }
 

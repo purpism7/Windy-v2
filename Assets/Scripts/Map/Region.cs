@@ -8,7 +8,7 @@ using UI;
 
 namespace Map
 {
-    public class Region : MonoBehaviour
+    public class Region : Common.Component
     {
         [SerializeField] private int id = 0;
         [SerializeField] private Transform itemObjectRootTm = null;
@@ -19,24 +19,20 @@ namespace Map
         public Transform PlayableRootTm => playableRootTm;
         public Transform ItemObjectRootTm => itemObjectRootTm;
 
-        public void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             var nonPlayables = npcRootTm.GetComponentsInChildren<Creature.Characters.NonPlayable>(true);
-            if (nonPlayables != null)
-            {
-                for (int i = 0; i < nonPlayables.Length; ++i)
-                {
-                    nonPlayables[i]?.Initialize();
-                }
-            }
+            Manager.Get<ICharacterManager>()?.InitializeNonPlayables(nonPlayables);
         }
 
-        public void Activate()
+        public override void Activate()
         {
         
         }
 
-        public void ChainUpdate()
+        public override void ChainUpdate()
         {
         
         }

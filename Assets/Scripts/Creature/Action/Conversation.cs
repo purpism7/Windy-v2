@@ -19,7 +19,9 @@ namespace Creature.Action
         {
             public int TargetId { get; private set; } = 0;
             public Queue<(IActor, int)> Queue { get; private set; } = null;
-            public bool ExceptionNotify { get; private set; } = false;
+            //public bool ExceptionNotify { get; private set; } = false;
+
+            public GameSystem.Event.Quest QuestEventData { get; private set; } = null; 
 
             public Param WithTargetId(int targetId)
             {
@@ -38,9 +40,9 @@ namespace Creature.Action
                 Queue?.Enqueue((targetIActor, localId));
             }
             
-            public Param WithExceptionNotify(bool exceptionNotify)
+            public Param WithQuestEventData(GameSystem.Event.Quest questEventData)
             {
-                ExceptionNotify = exceptionNotify;
+                QuestEventData = questEventData;
                 return this;
             }
         }
@@ -67,14 +69,14 @@ namespace Creature.Action
         public override void End()
         {
             int targetId = _param.TargetId;
-            bool exceptionNotify = _param.ExceptionNotify;
+            var questEventData = _param.QuestEventData;
             
             base.End();
             
             _speechBubble?.Deactivate();
 
-            if(!exceptionNotify)
-                GameSystem.Event.EventDispatcher.Dispatch<Quest>(new TalkNpc(targetId));
+            if(questEventData != null)
+                GameSystem.Event.EventDispatcher.Dispatch(questEventData);
         }
 
         private async UniTask ActivateSpeechBubbleAsync(bool isAppearEffect)
@@ -87,7 +89,7 @@ namespace Creature.Action
                 return;
             }
 
-            (IActor, int) conversationData = (null, 0);
+            (IActor iActor, int talkLocalId) conversationData = (null, 0);
             if (_param.Queue.TryDequeue(out conversationData))
             {
                 if (conversationData.Item1 == null)
@@ -97,10 +99,8 @@ namespace Creature.Action
                 }
             }
 
-            //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
-            
-            var targetIActor = conversationData.Item1;
-            int localId = conversationData.Item2;
+            var targetIActor = conversationData.iActor;
+            int localId = conversationData.talkLocalId;
 
             var speechBubbleParam = new SpeechBubble.Param
             {

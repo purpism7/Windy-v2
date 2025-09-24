@@ -18,6 +18,11 @@ namespace GameSystem.Event
         }
     }
 
+    public sealed class TalkNpcs : Quest
+    {
+       
+    }
+
     public sealed class BringItem : Quest
     {
         public System.Action<System.Action> CompletedAction { get; private set; } = null;

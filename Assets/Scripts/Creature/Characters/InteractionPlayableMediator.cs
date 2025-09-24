@@ -14,6 +14,7 @@ using Table;
 using UI.Part;
 using Common;
 using AddItem = Network.Api.AddItem;
+using GameSystem.Mission;
 
 namespace Creature.Characters
 {
@@ -103,7 +104,7 @@ namespace Creature.Characters
                 _interactionPart?.Deactivate();
             }
         }
-        
+
         private async UniTask ActivateInteractionPartAsync()
         {
             await CreateInteractionPartAsync();
@@ -116,14 +117,32 @@ namespace Creature.Characters
                 if (quest.IsCompletedQuestClear(_interactionNpc.Id))
                     eInteraction = EInteraction.QuestClear;
 
+                var questData = quest.CurrentQuestData;
+
                 if (eInteraction == EInteraction.Talk)
                 {
-                    var talkData = TalkDataContainer.Instance?.GetData(_interactionNpc.Id, quest.CurrentQuestData.Group, quest.CurrentQuestData.Step);
-                    if (talkData == null)
-                        return;
+                    if (questData.EMissionCondition1 == EMissionCondition.TalkNpcs &&
+                        questData.EMissionCondition2 == EMissionCondition.TalkNpcs)
+                    {
+                        bool isExistNpc = false;
+                        for(int i = 0; i < questData.Value1.Length; ++i)
+                        {
+                            if (questData.Value1[i] == _interactionNpc.Id)
+                                isExistNpc = true;
+                        }
 
-                    if (talkData.TalkLocalIds.IsNullOrEmpty())
-                        return;
+                        if (!isExistNpc)
+                            return;
+                    }
+                    else
+                    {
+                        var talkData = TalkDataContainer.Instance?.GetData(_interactionNpc.Id, questData.Group, questData.Step);
+                        if (talkData == null)
+                            return;
+
+                        if (talkData.TalkLocalIds.IsNullOrEmpty())
+                            return;
+                    }
                 }
             }
 
@@ -156,7 +175,7 @@ namespace Creature.Characters
                 .CreateAsync();
         }
         
-        private bool InteractionWithNpc(NonPlayable nonPlayable)
+        private bool InteractionWithNpc()
         {
             var iActCtr = _t?.IActCtr;
             if (iActCtr == null)
@@ -165,24 +184,77 @@ namespace Creature.Characters
             if (iActCtr.IsInteraction)
                 return false;
 
-            var quest = Manager.Get<IMission>().Quest;
+            var quest = Manager.Get<IMission>()?.Quest;
             var currentQuestData = quest?.CurrentQuestData;
             if (quest == null ||
                 currentQuestData == null)
                 return false;
-            
-            var talkData = TalkDataContainer.Instance?.GetData(nonPlayable.Id, currentQuestData.Group, currentQuestData.Step);
+
+            if (TalkWithNpcs(currentQuestData))
+                return true;
+
+            if (TalkWithNpc(quest))
+                return true;
+         
+            return false;
+        }
+
+        private bool TalkWithNpcs(QuestData questData)
+        {
+            if (questData == null)
+                return false;
+
+            if (questData.EMissionCondition1 == EMissionCondition.TalkNpcs &&
+                questData.EMissionCondition2 == EMissionCondition.TalkNpcs)
+            {
+                List<(NonPlayable nonPlayable, int talkLocalId)> npcTalkLocalIdList = new();
+                npcTalkLocalIdList.Clear();
+
+                for (int i = 0; i < questData.Value1.Length; ++i)
+                {
+                    int npcId = questData.Value1[i];
+
+                    if (questData.Value2.Length <= i)
+                        continue;
+
+                    int talkLocalId = questData.Value2[i];
+
+                    var nonPlayable = Manager.Get<ICharacterManager>()?.GetNonPlayable(npcId);
+                    if (nonPlayable == null)
+                        continue;
+
+                    npcTalkLocalIdList?.Add((nonPlayable, talkLocalId));
+                }
+
+                return TalkWithNpc(npcTalkLocalIdList, new TalkNpcs());
+            }
+
+            return false;
+        }
+
+        private bool TalkWithNpc(GameSystem.Mission.Quest quest)
+        {
+            var questData = quest?.CurrentQuestData;
+            if (questData == null)
+                return false;
+
+            var nonPlayable = _interactionNpc;
+
+            var talkData = TalkDataContainer.Instance?.GetData(nonPlayable.Id, questData.Group, questData.Step);
             if (talkData == null)
                 return false;
+
+            List<(NonPlayable nonPlayable, int talkLocalId)> npcTalkLocalIdList = new();
+            npcTalkLocalIdList.Clear();
 
             bool isAlready = false;
             var talkLocalIds = nonPlayable.GetTalkLocalIds(out isAlready);
             if (!talkLocalIds.IsNullOrEmpty() &&
                 !talkLocalIds.SequenceEqual(talkData.TalkLocalIds) || (talkData.TalkLocalIds.Length <= 1 && isAlready))
             {
-                if (CanOpenPathFindPuzzlePanel(currentQuestData))
+                if (CanOpenPathFindPuzzlePanel(questData))
                 {
-                    OpenPathFindPuzzlePanel(currentQuestData).Forget();
+                    OpenPathFindPuzzlePanel(questData).Forget();
                     return false;
                 }
 
@@ -190,8 +262,13 @@ namespace Creature.Characters
                         (callback) =>
                         {
                             completedActionCallback = callback;
-                            
-                            TalkWithNpc(nonPlayable, currentQuestData.CompleteTalkLocalIds, true);
+
+                            for (int i = 0; i < questData.CompleteTalkLocalIds?.Length; ++i)
+                            {
+                                npcTalkLocalIdList?.Add((nonPlayable, questData.CompleteTalkLocalIds[i]));
+                            }
+
+                            TalkWithNpc(npcTalkLocalIdList);
                             // var talkData = TalkDataContainer.Instance?.GetData(currentQuestData.CompleteTalkId);
                             // TalkWithNpc(nonPlayable, talkData.TalkLocalIds, true);
                         }))
@@ -199,27 +276,37 @@ namespace Creature.Characters
             }
             else
                 talkLocalIds = nonPlayable.RefreshTalkLocalIds();
-            
-            return TalkWithNpc(nonPlayable, talkLocalIds, false);
+
+            for (int i = 0; i < talkLocalIds.Length; ++i)
+            {
+                npcTalkLocalIdList?.Add((nonPlayable, talkLocalIds[i]));
+            }
+
+            return TalkWithNpc(npcTalkLocalIdList, new TalkNpc(nonPlayable.Id));
         }
 
-        private bool TalkWithNpc(NonPlayable nonPlayable, int[] talkLocalIds, bool exceptionNotify)
+        private bool TalkWithNpc(List<(NonPlayable nonPlayable, int talkLocalId)> npcTalkLocalIdList, GameSystem.Event.Quest questEventData = null)
+        //private bool TalkWithNpc(NonPlayable nonPlayable, int[] talkLocalIds, bool exceptionNotify)
         {
-            if (talkLocalIds.IsNullOrEmpty())
+            if (npcTalkLocalIdList.IsNullOrEmpty())
                 return false;
 
             var conversationParam = new Conversation.Param
             {
                 IListener = this,
-            }.WithTargetId(nonPlayable.Id)
-            .WithExceptionNotify(exceptionNotify);
+            }
+            .WithTargetId(npcTalkLocalIdList.FirstOrDefault().nonPlayable.Id)
+            .WithQuestEventData(questEventData);
 
-            for (int i = 0; i < talkLocalIds?.Length; ++i)
+            for (int i = 0; i < npcTalkLocalIdList.Count; ++i)
             {
-                if(talkLocalIds[i] <= 0)
+                var nonPlayable = npcTalkLocalIdList[i].nonPlayable;
+                if (nonPlayable == null)
                     continue;
 
-                conversationParam.Add(nonPlayable, talkLocalIds[i]);
+                int talkLocalId = npcTalkLocalIdList[i].talkLocalId;
+
+                conversationParam.Add(nonPlayable, talkLocalId);
             }
  
             _t?.IActCtr?.ExecuteAsync<Conversation, Conversation.Param>(conversationParam).Forget();
@@ -332,6 +419,7 @@ namespace Creature.Characters
 
             return true;
         }
+
         private async UniTask<bool> OpenPathFindPuzzlePanel(QuestData questData)
         {
             int puzzleIndex = questData.Value1.FirstOrDefault();
@@ -434,7 +522,7 @@ namespace Creature.Characters
                 {
                     if (_interactionNpc != null)
                     {
-                        if (InteractionWithNpc(_interactionNpc))
+                        if (InteractionWithNpc())
                         {
                             IsInteracting = true;
                             _interactionPart?.Deactivate();
@@ -459,7 +547,7 @@ namespace Creature.Characters
                 {
                     IsInteracting = true;
                     _interactionPart?.Deactivate();
-                    InteractionWithNpc(_interactionNpc);
+                    InteractionWithNpc();
 
                     _interactionNpc = null;
                     return;

@@ -85,6 +85,20 @@ namespace GameSystem.Mission
             ApiClient.Instance?.RequestPost(request);
         }
 
+        //private bool CheckCondition
+        //{
+        //    get
+        //    {
+
+        //        //for()
+        //        var condition = CurrentQuestData?.EMissionCondition1;
+        //        if(condition == EMissionCondition.BringItem)
+        //        {
+
+        //        }
+        //    }
+        //}
+
         private bool IsCompletedTalkNpc(int npcId)
         {
             var condition = CurrentQuestData?.ConditionList?.FirstOrDefault();
@@ -301,26 +315,34 @@ namespace GameSystem.Mission
             switch (quest)
             {
                 case TalkNpc talkNpc:
-                {
-                    if (IsCompletedTalkNpc(talkNpc.NpcId))
-                        ClearQuestAsync().Forget();
+                    {
+                        if (IsCompletedTalkNpc(talkNpc.NpcId))
+                            ClearQuestAsync().Forget();
                     
-                    break;
-                }
+                        break;
+                    }
+
+                case TalkNpcs talkNpcs:
+                    {
+                        Debug.Log("Talk Npcs");
+                        
+
+                        break;
+                    }
 
                 case BringItem bringItem:
-                {
-                    RequestRemoveItem(BringItemDic, bringItem.CompletedAction);
-                    break;
-                }
+                    {
+                        RequestRemoveItem(BringItemDic, bringItem.CompletedAction);
+                        break;
+                    }
 
                 case PathFindPuzzle pathFindPuzzle:
-                {
-                    if (pathFindPuzzle.IsClear)
-                        ClearQuestAsync().Forget();
+                    {
+                        if (pathFindPuzzle.IsClear)
+                            ClearQuestAsync().Forget();
                     
-                    break;
-                }
+                        break;
+                    }
             }
         }
 

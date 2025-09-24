@@ -6,6 +6,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 using GameSystem;
+using Creature.Characters;
 
 namespace GameSystem
 {
@@ -30,8 +31,10 @@ namespace GameSystem
             await AddIGenericAsync(GetComponent<CameraManager>());
             await AddIGenericAsync(transform.AddOrGetComponent<InputManager>());
             await AddIGenericAsync(transform.AddOrGetComponent<MissionManager>());
+
+            var characterManager = transform.AddOrGetComponent<CharacterManager>();
+            await AddIGenericAsync(characterManager);
             await AddIGenericAsync(transform.AddOrGetComponent<RegionManager>());
-            await AddIGenericAsync(transform.AddOrGetComponent<CharacterManager>());
             await AddIGenericAsync(transform.AddOrGetComponent<ObjectManager>());
 
             IWeatherManager = FindFirstObjectByType<WeatherManager>(FindObjectsInactive.Include);
@@ -39,6 +42,8 @@ namespace GameSystem
 
             _dayNightCycle = FindFirstObjectByType<DayNightCycle>(FindObjectsInactive.Include);
             NavMeshSurface = FindFirstObjectByType<NavMeshPlus.Components.NavMeshSurface>(FindObjectsInactive.Include);
+
+            await characterManager.CreatePlayableAsync();
         }
 
         private async UniTask AddIGenericAsync<T>(T t) where T : IGeneric
