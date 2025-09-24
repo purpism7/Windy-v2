@@ -130,16 +130,19 @@ namespace GameSystem.Mission
             for (int i = 0; i < conditionList.Count; ++i)
             {
                 var condition = conditionList[i];
-                if (condition.Item1 == EMissionCondition.BringItem)
+                if (condition.eMissionCondition == EMissionCondition.BringItem)
                 {
-                    int itemId = condition.Item2.FirstOrDefault();
-                    int reqItemCount = condition.Item2.LastOrDefault();
-                    var itemCount = InfoManager.Instance.GetItemCount(itemId);
-
-                    if (reqItemCount > itemCount)
+                    for(int j = 0; j < condition.values?.Length; j += 2)
                     {
-                        isCompleted = false;
-                        break;
+                        int itemId = condition.values[j];
+                        int reqItemCount = condition.values[j + 1];
+                        var itemCount = InfoManager.Instance.GetItemCount(itemId);
+
+                        if (reqItemCount > itemCount)
+                        {
+                            isCompleted = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -161,15 +164,19 @@ namespace GameSystem.Mission
                 for (int i = 0; i < conditionList?.Count; ++i)
                 {
                     var condition = conditionList[i];
-                    if (condition.Item1 == EMissionCondition.BringItem)
-                    {
-                        int itemId = condition.Item2.FirstOrDefault();
-                        int itemCount = condition.Item2.LastOrDefault();
 
-                        if (dic.ContainsKey(itemId))
-                            dic[itemId] = itemCount;
-                        else 
-                            dic.TryAdd(itemId, itemCount);
+                    if (condition.eMissionCondition == EMissionCondition.BringItem)
+                    {
+                        for (int j = 0; j < condition.values?.Length; j += 2)
+                        {
+                            int itemId = condition.values[j];
+                            int itemCount = condition.values[j + 1];
+
+                            if (dic.ContainsKey(itemId))
+                                dic[itemId] = itemCount;
+                            else
+                                dic.TryAdd(itemId, itemCount);
+                        }
                     }
                 }
 

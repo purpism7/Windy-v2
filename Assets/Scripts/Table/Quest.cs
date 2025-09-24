@@ -53,7 +53,7 @@ namespace Table
 
         public string CutsceneKey = string.Empty;
 
-        public List<(EMissionCondition, int[])> ConditionList
+        public List<(EMissionCondition eMissionCondition, int[] values)> ConditionList
         {
             get
             {
