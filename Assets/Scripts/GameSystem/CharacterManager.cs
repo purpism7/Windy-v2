@@ -136,6 +136,9 @@ namespace GameSystem
                 if (nonPlayable == null)
                     continue;
 
+                if (!nonPlayable.IsActivate)
+                    continue;
+
                 if (nonPlayable.Id == id)
                     return nonPlayable;
             }

@@ -76,6 +76,14 @@ namespace Common
         Sunny,
         Rainy,
     }
+
+    public enum ETimeOfDay
+    {
+        None,
+
+        Day, 
+        Night,
+    }
     
     [Flags]
     public enum EInputLock
@@ -87,5 +95,33 @@ namespace Common
         
         All = Key | Axis,
     }
+
+    #region Visibility
+    public enum VisibilityCondition
+    {
+        None,
+
+        Quest,
+        Weather,
+        TimeOfDay,
+    }
+
+    public enum VisibilityPhase
+    {
+        None, 
+
+        Before,
+        During,
+        After,
+    }
+
+    public enum Visibility
+    {
+        None,
+
+        Visible,
+        Invisible,
+    }
+    #endregion
 }
 
