@@ -82,7 +82,10 @@ public class Visibility : Common.Component
                     if(questData.Group <= condition.QuestGroup &&
                        questData.Step < condition.QuestStep)
                     {
-                        if(condition.Visibility == Common.Visibility.Visible)
+                        if (condition.Visibility == Common.Visibility.Visible)
+                        {
+                            
+                        }
 
                     }
 
