@@ -53,8 +53,8 @@ namespace Creator
         
         public async UniTask<T> CreateAsync()
         {
-            bool already = false;
-            var component = UIManager.Instance?.Get<T, V>(out already, rootTm: _rootTm, worldUI: _worldUI) as Common.Component<V>;
+            bool isExist = false;
+            var component = UIManager.Instance?.Get<T, V>(out isExist, rootTm: _rootTm, worldUI: _worldUI) as Common.Component<V>;
             if (component == null)
                 return null;
             
@@ -70,7 +70,7 @@ namespace Creator
 
             component?.SetParam(_param);
             
-            if (!already)
+            if (!isExist)
             {
                 await component.InitializeAsync();
 
@@ -80,8 +80,6 @@ namespace Creator
             
             await component.BeforeActivateAsync();
             component.Activate();
-
-            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
             await component.AfterActivateAsync();
 
             return component as T;

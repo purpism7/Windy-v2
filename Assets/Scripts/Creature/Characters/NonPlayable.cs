@@ -52,7 +52,7 @@ namespace Creature.Characters
             if (autoMove)
                 _originPos = Transform.position;
             
-            GameSystem.Event.EventDispatcher.Register<GameSystem.Event.ChangeQuest>(OnChanged);
+            GameSystem.Event.EventDispatcher.Register<GameSystem.Event.ChangeQuest>(OnChangedEvent);
             //IEventHandler a = new GameSystem.Event.EventHandler<As>();
             ////a.Add(OnChanged);
             Activate();
@@ -162,7 +162,7 @@ namespace Creature.Characters
         }
         #region
 
-        private void OnChanged(GameSystem.Event.ChangeQuest changeQuest)
+        private void OnChangedEvent(GameSystem.Event.ChangeQuest eventParam)
         {
             _talkIds = null;
         }

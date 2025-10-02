@@ -19,9 +19,18 @@ public class VisibilityInspector : Editor
         SerializedProperty conditionsProp = serializedObject.FindProperty("conditions");
         //EditorGUILayout.PropertyField(conditionsProp, true);
 
+        var isAutoStartProp = serializedObject.FindProperty("isAutoStart");
+        EditorGUILayout.PropertyField(isAutoStartProp);
+
+        var targetTmProp = serializedObject.FindProperty("targetTm");
+        EditorGUILayout.PropertyField(targetTmProp);
+
+        var visibilityTypeProp = serializedObject.FindProperty("visibilityType");
+        EditorGUILayout.PropertyField(visibilityTypeProp);
+
+        EditorGUILayout.Space();
 
         conditionsProp.arraySize = EditorGUILayout.IntField("Conditions Size", conditionsProp.arraySize);
-        EditorGUILayout.Space();
 
         for (int i = 0; i < conditionsProp.arraySize; i++)
         {
@@ -31,12 +40,10 @@ public class VisibilityInspector : Editor
             
             EditorGUILayout.PropertyField(visibilityCondition);
 
+            SerializedProperty visibilityPhase = null;
             if ((VisibilityCondition)visibilityCondition.enumValueIndex != VisibilityCondition.None)
             {
-                var visibility = element.FindPropertyRelative("Visibility");
-                var visibilityPhase = element.FindPropertyRelative("VisibilityPhase");
-
-                EditorGUILayout.PropertyField(visibility);
+                visibilityPhase = element.FindPropertyRelative("VisibilityPhase");
                 EditorGUILayout.PropertyField(visibilityPhase);
             }
 
@@ -44,8 +51,43 @@ public class VisibilityInspector : Editor
             {
                 case VisibilityCondition.Quest:
                     {
-                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestGroup"));
-                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestStep"));
+                        var contentName = "Group";
+
+                        EditorGUILayout.BeginVertical("box");
+                        if ((VisibilityPhase)visibilityPhase.enumValueIndex == VisibilityPhase.During)
+                        {
+                            contentName = "From";
+                            EditorGUILayout.LabelField("Group");
+                            EditorGUILayout.BeginHorizontal();
+                        }
+
+                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestGroup"), new GUIContent(contentName), GUILayout.MinWidth(100));
+
+                        contentName = "Step";
+                        if ((VisibilityPhase)visibilityPhase.enumValueIndex == VisibilityPhase.During)
+                        {
+                            contentName = "From";
+
+                            EditorGUILayout.Space();
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestGroup"), new GUIContent("To"), GUILayout.MinWidth(100));
+                            EditorGUILayout.EndHorizontal();
+                            EditorGUILayout.EndVertical();
+
+                            EditorGUILayout.BeginVertical("box");
+                            EditorGUILayout.LabelField("Step");
+                            EditorGUILayout.BeginHorizontal();
+                        }
+
+                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestStep"), new GUIContent(contentName), GUILayout.MinWidth(100));
+
+                        if((VisibilityPhase)visibilityPhase.enumValueIndex == VisibilityPhase.During)
+                        {
+                            EditorGUILayout.Space();
+                            EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestStep"), new GUIContent("To"), GUILayout.MinWidth(100));
+                            EditorGUILayout.EndHorizontal();
+                        }
+
+                        EditorGUILayout.EndVertical();
 
                         break;
                     }
@@ -66,7 +108,7 @@ public class VisibilityInspector : Editor
             }
 
             //EditorGUILayout.EndVertical();
-            EditorGUILayout.Space();
+            //EditorGUILayout.Space();
         }
 
         serializedObject.ApplyModifiedProperties();

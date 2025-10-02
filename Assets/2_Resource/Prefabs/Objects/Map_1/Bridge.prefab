@@ -469,6 +469,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8085765851122963439}
   - component: {fileID: 949081255805957205}
+  - component: {fileID: 7946459398690293315}
+  - component: {fileID: 9103591837005613203}
   m_Layer: 8
   m_Name: Bridge
   m_TagString: Untagged
@@ -510,6 +512,56 @@ MonoBehaviour:
   orderOffset: -8000
   bridgeTm: {fileID: 3518636343956439799}
   brokenBridgeTm: {fileID: 1625663561042513743}
+--- !u!114 &7946459398690293315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5351265211712869345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692eb913f92bb55408b166f1d9be32d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Visibility
+  rootTm: {fileID: 0}
+  isAutoStart: 1
+  targetTm: {fileID: 1625663561042513743}
+  visibilityType: 1
+  conditions:
+  - VisibilityCondition: 1
+    VisibilityPhase: 1
+    QuestGroup: 1
+    QuestStep: 7
+    ToQuestGroup: 0
+    ToQuestStep: 0
+    Weather: 0
+    TimeOfDay: 0
+--- !u!114 &9103591837005613203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5351265211712869345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692eb913f92bb55408b166f1d9be32d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Visibility
+  rootTm: {fileID: 0}
+  isAutoStart: 1
+  targetTm: {fileID: 3518636343956439799}
+  visibilityType: 1
+  conditions:
+  - VisibilityCondition: 1
+    VisibilityPhase: 3
+    QuestGroup: 1
+    QuestStep: 7
+    ToQuestGroup: 0
+    ToQuestStep: 0
+    Weather: 0
+    TimeOfDay: 0
 --- !u!1 &5704876018109390097
 GameObject:
   m_ObjectHideFlags: 0

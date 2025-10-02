@@ -84,11 +84,11 @@ namespace GameSystem
                 });
         }
 
-        public Common.Component Get<T, V>(out bool already, Transform rootTm = null, bool worldUI = false) 
+        public Common.Component Get<T, V>(out bool isExist, Transform rootTm = null, bool worldUI = false) 
             where T : Common.Component 
             where V :Common.Component<V>.Param
         {
-            already = true;
+            isExist = true;
             
             if (_currIView?.GetType() == typeof(T))
                 return null;
@@ -117,8 +117,8 @@ namespace GameSystem
                     return component as T;
                 }
             }
-            
-            already = false;
+
+            isExist = false;
             
             if (_componentDic != null)
             {

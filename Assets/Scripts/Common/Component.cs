@@ -13,8 +13,7 @@ namespace Common
             
         }
         
-        [SerializeField]
-        private Transform rootTm = null;
+        [SerializeField] private Transform rootTm = null;
 
         protected bool _isActivate = false;
 
@@ -79,7 +78,6 @@ namespace Common
 
             await BeforeActivateAsync();
             Activate();
-
             await AfterActivateAsync();
         }
     }

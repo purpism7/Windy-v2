@@ -115,7 +115,7 @@ namespace Common
         After,
     }
 
-    public enum Visibility
+    public enum VisibilityType
     {
         None,
 

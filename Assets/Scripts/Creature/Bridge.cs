@@ -33,9 +33,9 @@ namespace Creature
             //MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
         }
 
-        private void OnChangedEvent(GameSystem.Event.Quest data)
+        private void OnChangedEvent(GameSystem.Event.Quest eventParam)
         {
-            switch (data)
+            switch (eventParam)
             {
                 case PathFindPuzzle pathFindPuzzle:
                 {

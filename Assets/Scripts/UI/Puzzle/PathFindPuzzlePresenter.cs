@@ -216,7 +216,10 @@ namespace UI.Puzzle
             if (puzzlePiece == null)
             {
                 puzzlePiece = await CreatePuzzlePieceAsync(puzzlePieceParam);
+                await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+                await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
                 Extensions.ScreenPointToLocalPointInRectangle(puzzlePiece.RectTm, puzzlePiecePosition.RectTm);
+             
                 puzzlePiece.transform.localScale = Vector3.one;
             }
             else
@@ -237,7 +240,7 @@ namespace UI.Puzzle
                 () =>
                 {
                     Debug.Log("Finished Cutscene");
-                    MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
+                    //MainManager.Instance?.NavMeshSurface?.BuildNavMesh();
                 });
         }
         
