@@ -58,7 +58,7 @@ namespace Creator
             if (component == null)
                 return null;
             
-            var rectTm = component?.GetComponent<RectTransform>();
+            var rectTm = component.GetComponent<RectTransform>();
             if (rectTm)
             {
                 rectTm.anchoredPosition3D = Vector3.zero;
@@ -68,7 +68,7 @@ namespace Creator
                     rectTm.sizeDelta = Vector2.zero;
             }
 
-            component?.SetParam(_param);
+            component.SetParam(_param);
             
             if (!isExist)
             {
