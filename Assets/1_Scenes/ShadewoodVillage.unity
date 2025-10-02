@@ -657,10 +657,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 2887617493939432852, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
-      propertyPath: isAutoStart
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2910843512239488273, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -848,10 +844,6 @@ PrefabInstance:
     - target: {fileID: 4028595267635605058, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036328066980832068, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
-      propertyPath: isAutoStart
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4075006738793437983, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
       propertyPath: m_Mesh
@@ -1700,7 +1692,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 646176482692151455, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1979338735}
   m_SourcePrefab: {fileID: 100100000, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
 --- !u!60 &572845495 stripped
 PolygonCollider2D:
@@ -2530,6 +2525,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4784369951831927800, guid: 5bd8aef4a6c654c0b9593ab9d6479710, type: 3}
   m_PrefabInstance: {fileID: 1530310441}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1979338731 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 646176482692151455, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
+  m_PrefabInstance: {fileID: 572845494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1979338732 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7226837221471632635, guid: 58416da579c4149a2944700fce8dda8d, type: 3}
+  m_PrefabInstance: {fileID: 572845494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1979338735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979338731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692eb913f92bb55408b166f1d9be32d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Visibility
+  rootTm: {fileID: 0}
+  isAutoStart: 1
+  targetTm: {fileID: 1979338732}
+  visibilityType: 1
+  conditions:
+  - VisibilityCondition: 1
+    VisibilityPhase: 1
+    QuestGroup: 2
+    QuestStep: 9
+    ToQuestGroup: 0
+    ToQuestStep: 0
+    Weather: 0
+    TimeOfDay: 0
 --- !u!1 &2055586276
 GameObject:
   m_ObjectHideFlags: 3

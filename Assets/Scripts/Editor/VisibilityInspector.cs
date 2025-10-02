@@ -1,18 +1,104 @@
-using Common;
 using UnityEditor;
 using UnityEngine;
+
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+using Newtonsoft.Json;
+
+using Table;
+using Common;
 
 [CustomEditor(typeof(Visibility))]
 public class VisibilityInspector : Editor
 {
+    private QuestDataContainer _questDataContainer = null;
+
+    private int _filterQuestGroup = 0;
+    private HashSet<int> _questGroupHashSet = new();
+    private List<string> _questGroupDisplayedList = new();
+
+    private int _filterQuestStep = 0;
+    private HashSet<int> _questStepHashSet = new();
+    private List<string> _questStepDisplayedList = new();
+
+    private void OnEnable()
+    {
+        LoadQuestDatas();
+
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        _questGroupHashSet?.Clear();
+        _questGroupDisplayedList?.Clear();
+
+        _questStepHashSet?.Clear();
+        _questStepDisplayedList?.Clear();
+
+        _questGroupHashSet?.Add(0);
+        _questStepHashSet?.Add(0);
+
+        for (int i = 0; i < _questDataContainer?.Datas?.Length; ++i)
+        {
+            var questData = _questDataContainer?.Datas[i];
+            if (questData == null)
+                continue;
+
+            _questGroupHashSet?.Add(questData.Group);
+            _questStepHashSet?.Add(questData.Step);
+        }
+
+        _questGroupHashSet = _questGroupHashSet?.OrderBy(_ => _).ToHashSet();
+        _questStepHashSet = _questStepHashSet?.OrderBy(_ => _).ToHashSet();
+
+        foreach (var questGroup in _questGroupHashSet)
+        {
+            var displayed = questGroup.ToString();
+            if (questGroup == 0)
+                displayed = "None";
+
+            _questGroupDisplayedList?.Add(displayed);
+        }
+
+        foreach (var questStep in _questStepHashSet)
+        {
+            var displayed = questStep.ToString();
+            if (questStep == 0)
+                displayed = "None";
+
+            _questStepDisplayedList?.Add(displayed);
+        }
+    }
+
+    private void LoadDatas<T>(string filePath, ref T container) where T : Container
+    {
+        var settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
+        var fileName = Path.GetFileName(filePath);
+        fileName = Path.GetFileNameWithoutExtension(fileName);
+
+        string jsonString = File.ReadAllText(filePath);
+
+        var type = typeof(T);
+        var obj = System.Activator.CreateInstance(type);
+        container = obj as T;
+        container?.Initialize(container, jsonString);
+    }
+
+    private void LoadQuestDatas()
+    {
+        var filePath = "Assets/3_Table/Quest.json";
+        LoadDatas(filePath, ref _questDataContainer);
+    }
+
     public override void OnInspectorGUI()
     {
-        //base.OnInspectorGUI();
-
-        //var visibility = target as Visibility;
-        //if (visibility == null)
-        //    return;
-
         EditorGUILayout.BeginVertical();
         serializedObject.Update();
 
@@ -61,7 +147,9 @@ public class VisibilityInspector : Editor
                             EditorGUILayout.BeginHorizontal();
                         }
 
-                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestGroup"), new GUIContent(contentName), GUILayout.MinWidth(100));
+                        //EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestGroup"), new GUIContent(contentName), GUILayout.MinWidth(100));
+                        var questGroupProp = element.FindPropertyRelative("QuestGroup");
+                        questGroupProp.intValue = EditorGUILayout.IntPopup(contentName, questGroupProp.intValue, _questGroupDisplayedList?.ToArray(), _questGroupHashSet?.ToArray(), GUILayout.MinWidth(100));
 
                         contentName = "Step";
                         if ((VisibilityPhase)visibilityPhase.enumValueIndex == VisibilityPhase.During)
@@ -69,7 +157,10 @@ public class VisibilityInspector : Editor
                             contentName = "From";
 
                             EditorGUILayout.Space();
-                            EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestGroup"), new GUIContent("To"), GUILayout.MinWidth(100));
+
+                            var toQuestGroupProp = element.FindPropertyRelative("ToQuestGroup");
+                            toQuestGroupProp.intValue = EditorGUILayout.IntPopup("To", toQuestGroupProp.intValue, _questGroupDisplayedList?.ToArray(), _questGroupHashSet?.ToArray(), GUILayout.MinWidth(100));
+                            //EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestGroup"), new GUIContent("To"), GUILayout.MinWidth(100));
                             EditorGUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
 
@@ -78,12 +169,17 @@ public class VisibilityInspector : Editor
                             EditorGUILayout.BeginHorizontal();
                         }
 
-                        EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestStep"), new GUIContent(contentName), GUILayout.MinWidth(100));
+                        var questStepProp = element.FindPropertyRelative("QuestStep");
+                        questStepProp.intValue = EditorGUILayout.IntPopup(contentName, questStepProp.intValue, _questStepDisplayedList?.ToArray(), _questStepHashSet?.ToArray(), GUILayout.MinWidth(100));
+                        //EditorGUILayout.PropertyField(element.FindPropertyRelative("QuestStep"), new GUIContent(contentName), GUILayout.MinWidth(100));
 
                         if((VisibilityPhase)visibilityPhase.enumValueIndex == VisibilityPhase.During)
                         {
                             EditorGUILayout.Space();
-                            EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestStep"), new GUIContent("To"), GUILayout.MinWidth(100));
+
+                            var toQuestStepProp = element.FindPropertyRelative("ToQuestStep");
+                            toQuestStepProp.intValue = EditorGUILayout.IntPopup("To", toQuestStepProp.intValue, _questStepDisplayedList?.ToArray(), _questStepHashSet?.ToArray(), GUILayout.MinWidth(100));
+                            //EditorGUILayout.PropertyField(element.FindPropertyRelative("ToQuestStep"), new GUIContent("To"), GUILayout.MinWidth(100));
                             EditorGUILayout.EndHorizontal();
                         }
 
