@@ -1,7 +1,9 @@
-using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
+
 using UnityEngine;
 using UnityEngine.Playables;
+using Unity.Cinemachine;
+
+using Cysharp.Threading.Tasks;
 
 namespace GameSystem
 {
@@ -67,7 +69,7 @@ namespace GameSystem
             
             // iCameraManager.DeactivateVirtualCamera();
             Extensions.SetActive(UIManager.Instance?.Canvas, false);
-            iCameraManager.SetUpdateMethod(Cinemachine.CinemachineBrain.UpdateMethod.FixedUpdate);
+            iCameraManager.SetUpdateMethod(CinemachineBrain.UpdateMethods.FixedUpdate);
 
             _iCutscenes[id]?.Play(_playableDirector);
         }    
@@ -86,7 +88,7 @@ namespace GameSystem
             if (_playableDirector != null)
                 _playableDirector.playableAsset = null;
 
-            iCameraManager.SetUpdateMethod(Cinemachine.CinemachineBrain.UpdateMethod.SmartUpdate);
+            iCameraManager.SetUpdateMethod(CinemachineBrain.UpdateMethods.SmartUpdate);
 
             await UniTask.WaitWhile(() => iCameraManager.ReturnDistance <= 1f);
             

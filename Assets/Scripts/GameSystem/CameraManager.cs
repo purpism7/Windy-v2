@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
-using Cinemachine;
+using Unity.Cinemachine;
+
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,7 +31,7 @@ namespace GameSystem
 
         void ActivateVirtualCamera();
         void DeactivateVirtualCamera();
-        void SetUpdateMethod(CinemachineBrain.UpdateMethod updateMethod);
+        void SetUpdateMethod(CinemachineBrain.UpdateMethods updateMethod);
     }
 
     public class CameraManager : MonoBehaviour, ICameraManager
@@ -41,8 +42,9 @@ namespace GameSystem
 
         [SerializeField]
         private Camera mainCamera = null;
-        [SerializeField]
-        private CinemachineVirtualCamera virtualCamera = null;
+
+        [SerializeField] private CinemachineVirtualCameraBase virtualCamera = null;
+        // private CinemachineVirtualCamera virtualCamera = null;
         //private const float DefaultZPos = -200f;
 
         private Playable _playable  = null;
@@ -163,13 +165,13 @@ namespace GameSystem
             virtualCamera?.SetActive(false);    
         }
         
-        void ICameraManager.SetUpdateMethod(CinemachineBrain.UpdateMethod updateMethod)
+        void ICameraManager.SetUpdateMethod(CinemachineBrain.UpdateMethods updateMethod)
         {
             var cinemachineBrain = mainCamera?.GetComponent<CinemachineBrain>();
             if (cinemachineBrain == null)
                 return;
 
-            cinemachineBrain.m_UpdateMethod = updateMethod;
+            cinemachineBrain.UpdateMethod = updateMethod;
         }
         
         bool CheckDrag(Vector3 startPos, Vector3 currPos)
