@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Table
@@ -43,7 +44,30 @@ namespace Table
 
             return true;
         }
-        
+
+        public List<RecipeData> GetRecipeDataListByQuest(int questGroup, int questStep)
+        {
+            if (Datas.IsNullOrEmpty())
+                return null;
+
+            var list = new List<RecipeData>();
+            list.Clear();
+            
+            for (int i = 0; i < Datas.Length; ++i)
+            {
+                var data = Datas[i];
+                if(data == null)
+                    continue;
+
+                if (data.QuestGroup <= questGroup)
+                {
+                    if (data.QuestStep <= questStep)
+                        list.Add(data);
+                }
+            }
+
+            return list;
+        }
     }
 }
 

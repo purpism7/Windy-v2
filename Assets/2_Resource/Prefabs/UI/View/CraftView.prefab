@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.CraftView
   rootTm: {fileID: 3379866400504160783}
+  materialRootRectTm: {fileID: 661074192985266593}
 --- !u!1 &8145665053532854501
 GameObject:
   m_ObjectHideFlags: 0
