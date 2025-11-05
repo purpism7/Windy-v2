@@ -1,7 +1,7 @@
-using NUnit.Framework.Constraints;
+using UnityEngine;
+
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GameSystem.Event
 {
@@ -32,6 +32,18 @@ namespace GameSystem.Event
                 _eventHandlers[typeof(T)] = (Action<T>)handler + action;
             else
                 _eventHandlers[typeof(T)] = action;
+        }
+
+        public static void Unregister<T>(Action<T> action) where T : EventParam
+        {
+            if (_eventHandlers.TryGetValue(typeof(T), out var handler))
+            {
+                var newHandler = (Action<T>)handler - action;
+                if (newHandler == null)
+                    _eventHandlers.Remove(typeof(T));
+                else
+                    _eventHandlers[typeof(T)] = newHandler;
+            }
         }
 
         public static void Dispatch<T>(T param) where T : EventParam
