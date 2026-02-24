@@ -11,7 +11,7 @@ namespace GameSystem
         [SerializeField] private Light2D light2d = null;
         [SerializeField] private TextMeshProUGUI timeTMP = null;
         
-        private float _dayLenght = 60f * 10f * 1f; // 하루의 길이(초).
+        private float _dayLenght = 60f * 1f; // 하루의 길이(초).
         private float _dayIntensity = 1f;
         private float _nightIntensity = 0.4f;
 
@@ -43,57 +43,70 @@ namespace GameSystem
         {
             if (light2d == null)
                 return;
-            
-            // float time = 0;
-            // if (_timeOfDay < 0.5f) // 낮
-            //     // time = _timeOfDay * 2f;
-            // else // 밤
-                // time = (_timeOfDay - 0.5f) * 2;
 
-            ChangeToDay();
-            ChangeToNight();
+            // 1. 밤 -> 낮 전환 구간 (0.45 ~ 0.55)
+            if (_timeOfDay >= 0.45f && _timeOfDay <= 0.55f)
+            {
+                ChangeToDay();
+            }
+            // 2. 낮 -> 밤 전환 구간 (0.95 ~ 1.0 또는 0.0 ~ 0.05)
+            else if (_timeOfDay >= 0.95f || _timeOfDay <= 0.05f)
+            {
+                ChangeToNight();
+            }
+            // 3. 완전한 낮 유지 구간 (0.55 ~ 0.95)
+            else if (_timeOfDay > 0.55f && _timeOfDay < 0.95f)
+            {
+                SetLight(_dayIntensity, _dayColor);
+            }
+            // 4. 완전한 밤 유지 구간 (0.05 ~ 0.45)
+            else
+            {
+                SetLight(_nightIntensity, _nightColor);
+            }
+        }
+
+        // 💡 새로운 헬퍼 함수: 전환 중이 아닐 때 빛을 단단히 고정해 줍니다.
+        private void SetLight(float intensity, Color color)
+        {
+            light2d.intensity = intensity;
+            light2d.color = color;
         }
 
         private void ChangeToDay()
         {
             float start = 0.45f;
-            float transitionRange = 0.05f;
-            
-            if (_timeOfDay > start && _timeOfDay < start + transitionRange)
-            {
-                var time = (_timeOfDay - start) / 0.1f;
-                
-                LerpLight(_nightIntensity, _dayIntensity, _nightColor, _dayColor, time);
-            }
+            float transitionRange = 0.1f; // 0.45 ~ 0.55 (총 0.1의 시간 동안 전환)
+
+            // UpdateLighting에서 이미 구간 검사를 했으므로 if문을 뺄 수 있어 코드가 깔끔해집니다.
+            float time = (_timeOfDay - start) / transitionRange;
+            LerpLight(_nightIntensity, _dayIntensity, _nightColor, _dayColor, time);
         }
 
         private void ChangeToNight()
         {
-            var start = 0.95f;
-            var transitionRange = 0.05f;
+            float start = 0.95f;
+            float transitionRange = 0.05f; // 0.95~1.0(0.05) + 0.0~0.05(0.05) = 총 0.1의 시간
             float time = 0;
-            
-            if (_timeOfDay > start || _timeOfDay < transitionRange)
+
+            if (_timeOfDay >= start)
             {
-                if (_timeOfDay >= start)
-                {
-                    // 0.9 ~ 1.0 → 0.0 ~ 0.5
-                    time = (_timeOfDay - start) / transitionRange * 0.5f;
-                }
-                else if (_timeOfDay <= transitionRange)
-                {
-                    // 0.0 ~ 0.1 → 0.5 ~ 1.0
-                    time = 0.5f + (_timeOfDay / transitionRange * 0.5f);
-                }
-                
-                LerpLight(_dayIntensity, _nightIntensity, _dayColor, _nightColor, time);
+                // 0.95 ~ 1.0 구간 (진행률의 절반인 0.0 ~ 0.5 비율 적용)
+                time = (_timeOfDay - start) / transitionRange * 0.5f;
             }
+            else
+            {
+                // 0.0 ~ 0.05 구간 (나머지 절반인 0.5 ~ 1.0 비율 적용)
+                time = 0.5f + (_timeOfDay / transitionRange * 0.5f);
+            }
+
+            LerpLight(_dayIntensity, _nightIntensity, _dayColor, _nightColor, time);
         }
 
         private void LerpLight(float startIntensity, float endIntensity, Color startColor, Color endColor, float time)
         {
-            light2d.intensity = Mathf.Lerp(startIntensity, endIntensity, time); 
-            light2d.color = Color.Lerp(startColor, endColor, time); 
+            light2d.intensity = Mathf.Lerp(startIntensity, endIntensity, time);
+            light2d.color = Color.Lerp(startColor, endColor, time);
         }
 
         private void UpdateTime()
