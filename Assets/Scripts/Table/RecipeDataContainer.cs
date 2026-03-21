@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 namespace Table
@@ -45,7 +46,7 @@ namespace Table
             return true;
         }
 
-        public List<RecipeData> GetRecipeDataListByQuest(int questGroup, int questStep)
+        public List<RecipeData> GetRecipeDataListByQuest(int questGroup, int questStep, bool isCraft)
         {
             if (Datas.IsNullOrEmpty())
                 return null;
@@ -59,6 +60,12 @@ namespace Table
                 if(data == null)
                     continue;
 
+                if (isCraft)
+                {
+                    if(!data.IsCraft)
+                        continue;
+                }
+                
                 if (data.QuestGroup <= questGroup)
                 {
                     if (data.QuestStep <= questStep)

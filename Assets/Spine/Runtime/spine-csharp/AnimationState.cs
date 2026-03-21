@@ -750,10 +750,11 @@ namespace Spine {
 			if (last == null) {
 				SetCurrent(trackIndex, entry, true);
 				queue.Drain();
+				if (delay < 0) delay = 0;
 			} else {
 				last.next = entry;
 				entry.previous = last;
-				if (delay <= 0) delay += last.TrackComplete - entry.mixDuration;
+				if (delay <= 0) delay = Math.Max(delay + last.TrackComplete - entry.mixDuration, 0);
 			}
 
 			entry.delay = delay;
@@ -799,7 +800,7 @@ namespace Spine {
 		/// </returns>
 		public TrackEntry AddEmptyAnimation (int trackIndex, float mixDuration, float delay) {
 			TrackEntry entry = AddAnimation(trackIndex, AnimationState.EmptyAnimation, false, delay);
-			if (delay <= 0) entry.delay += entry.mixDuration - mixDuration;
+			if (delay <= 0) entry.delay = Math.Max(entry.delay + entry.mixDuration - mixDuration, 0);
 			entry.mixDuration = mixDuration;
 			entry.trackEnd = mixDuration;
 			return entry;
@@ -1049,17 +1050,24 @@ namespace Spine {
 
 		/// <summary>
 		/// <para>
-		/// Seconds to postpone playing the animation. When this track entry is the current track entry, <c>Delay</c>
-		/// postpones incrementing the <see cref="TrackEntry.TrackTime"/>. When this track entry is queued, <c>Delay</c> is the time from
-		/// the start of the previous animation to when this track entry will become the current track entry (ie when the previous
-		/// track entry <see cref="TrackEntry.TrackTime"/> &gt;= this track entry's <c>Delay</c>).</para>
+		/// Seconds to postpone playing the animation. Must be >= 0. When this track entry is the current track entry,
+		/// <c>Delay</c> postpones incrementing the <see cref="TrackEntry.TrackTime"/>. When this track entry is queued,
+		/// <c>Delay</c> is the time from the start of the previous animation to when this track entry will become the current
+		/// track entry (ie when the previous track entry <see cref="TrackEntry.TrackTime"/> &gt;= this track entry's
+		/// <c>Delay</c>).</para>
 		/// <para>
 		/// <see cref="TrackEntry.TimeScale"/> affects the delay.</para>
 		/// <para>
-		/// When using <see cref="AnimationState.AddAnimation(int, Animation, bool, float)"/> with a <c>delay</c> &lt;= 0, the delay
-		/// is set using the mix duration from the <see cref="AnimationStateData"/>. If <see cref="mixDuration"/> is set afterward, the delay
-		/// may need to be adjusted.</para></summary>
-		public float Delay { get { return delay; } set { delay = value; } }
+		/// When passing <c>delay</c> &lt;= 0 <see cref="AnimationState.AddAnimation(int, Animation, bool, float)"/>, this
+		/// <c>delay</c> is set using a mix duration from the <see cref="AnimationStateData"/>. To change the <see cref="mixDuration"/>
+		/// afterward, use <see cref="SetMixDuration(float, float)"/> so this <c>delay</c> is adjusted.</para></summary>
+		public float Delay {
+			get { return delay; }
+			set {
+				if (delay < 0) throw new ArgumentException("delay must be >= 0.", "delay");
+				delay = value;
+			}
+		}
 
 		/// <summary>
 		/// Current time in seconds this track entry has been the current track entry. The track time determines
@@ -1261,7 +1269,12 @@ namespace Spine {
 		///		entry is looping, its next loop completion is used instead of its duration.</param>
 		public void SetMixDuration (float mixDuration, float delay) {
 			this.mixDuration = mixDuration;
-			if (previous != null && delay <= 0) delay += previous.TrackComplete - mixDuration;
+			if (delay <= 0) {
+				if (previous != null)
+					delay = Math.Max(delay + previous.TrackComplete - mixDuration, 0);
+				else
+					delay = 0;
+			}
 			this.delay = delay;
 		}
 

@@ -68,7 +68,7 @@ namespace UI
             if (questData == null)
                 return;
             
-            var recipeDataList = RecipeDataContainer.Instance?.GetRecipeDataListByQuest(questData.Group, questData.Step);
+            var recipeDataList = RecipeDataContainer.Instance?.GetRecipeDataListByQuest(questData.Group, questData.Step, true);
             if (recipeDataList == null)
                 return;
 
