@@ -17,14 +17,16 @@
 
 ## Gameplay
 
-<div align="center">
-  <a href="./docs/assets/windy-gameplay.mp4">
-    <img src="./docs/assets/windy-gameplay-preview.gif" width="720" alt="탐험, NPC 대화, 인벤토리, 길 잇기 퍼즐을 담은 Windy 플레이 미리보기" />
-  </a>
-  <br />
-  <a href="./docs/assets/windy-gameplay.mp4"><strong>▶ 전체 플레이 영상 보기</strong></a>
+| 탐험 | NPC 대화 |
+| :---: | :---: |
+| [![Windy 월드 탐험](./docs/assets/windy-exploration.jpg)](./docs/assets/windy-gameplay.mp4) | [![Windy NPC 대화](./docs/assets/windy-dialogue.jpg)](./docs/assets/windy-gameplay.mp4) |
+| **인벤토리와 제작** | **길 잇기 퍼즐** |
+| [![Windy 인벤토리와 제작](./docs/assets/windy-crafting.jpg)](./docs/assets/windy-gameplay.mp4) | [![Windy 길 잇기 퍼즐](./docs/assets/windy-puzzle.jpg)](./docs/assets/windy-gameplay.mp4) |
+
+<p align="center">
+  <a href="./docs/assets/windy-gameplay.mp4"><strong>▶ 전체 플레이 영상 보기 / 다운로드</strong></a>
   <sub> · 720p · 03:06 · 사운드 포함</sub>
-</div>
+</p>
 
 ## Project Overview
 
